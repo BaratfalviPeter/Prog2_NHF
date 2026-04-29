@@ -1,4 +1,5 @@
 #include "Film.hpp"
+#include <string>
 
 class Katalogus{
     Film** TaroltFilm;
@@ -16,11 +17,5 @@ public:
     void torles(int index);
     void mentes() const;
     void betoltes();
-
-
-
-
-
-
     ~Katalogus();
 };
