@@ -2,8 +2,8 @@
 #include "Kedvencek.hpp"
 
 class Logika{
-    Katalogus katalogus;
-    Kedvencek kedvencek;
+    Katalogus katalogusTarolo;
+    Kedvencek kedvencekTarolo;
     void kedvencekBetolt();
     void ujFilmHozzaad();
     void filmKilistaz();
