@@ -5,7 +5,7 @@ class Logika{
     Katalogus katalogusTarolo;
     Kedvencek kedvencekTarolo;
     void kedvencekBetolt();
-    void ujFilmHozzaad();
+    void ujFilmHozzaad(Film* film);
     void filmKilistaz();
     void filmKereses();
     void kedvencek();

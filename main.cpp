@@ -1,8 +1,15 @@
 
 #include "Logika.hpp"
 
+
 int main() {
-    Logika program;
-    program.inditas(); 
+    
+
+
+    //Tesztprogram
+
+    Logika teszt_logika;
+    teszt_logika.inditas();
+
     return 0;
 }
