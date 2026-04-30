@@ -9,8 +9,10 @@ protected:
     int keletkezes;
 public:
     Film();
-    Film(std::string n, int i, int k);
+    Film(const std::string& n, int i, int k);
+    //Teljesen virtualis fuggveny kesobb lesz felulirva
     virtual void kiir() const = 0;
+    //Teljesen virtualis fuggveny kesobb lesz felulirva
     virtual void mentes() const = 0;
     virtual ~Film();
 };
@@ -18,8 +20,10 @@ public:
 class CsaladiFilm : public Film{
     int korhatar;
 public:
-    CsaladiFilm(std::string n, int i, int k, int kh);
+    CsaladiFilm(const std::string& n, int i, int k, int kh);
+    //Kiiraja a kepernyore az adott film adatait.
     void kiir() const override;
+    //Elmenti az adott film adatait a specialis formatumba
     void mentes() const override;
     ~CsaladiFilm();
 };
@@ -27,8 +31,10 @@ public:
 class DokumentumFilm : public Film{
     std::string leiras;
 public:
-    DokumentumFilm(std::string n, int i, int k, std::string l);
+    DokumentumFilm(const std::string& n, int i, int k, const std::string& l);
+    //Kiiraja a kepernyore az adott film adatait.
     void kiir() const override;
+    //Elmenti az adott film adatait a specialis formatumba
     void mentes() const override;
     ~DokumentumFilm();
 };

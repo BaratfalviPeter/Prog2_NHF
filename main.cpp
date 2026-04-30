@@ -6,7 +6,7 @@ int main() {
     
 
 
-    //Tesztprogram
+    //Tesztprogram inditasa
 
     Logika teszt_logika;
     teszt_logika.inditas();
