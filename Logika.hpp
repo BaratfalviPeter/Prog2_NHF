@@ -1,3 +1,4 @@
+//WM53NO
 #include "Katalogus.hpp"
 #include "Kedvencek.hpp"
 

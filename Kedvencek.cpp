@@ -1,3 +1,4 @@
+//WM53NO
 #include "Kedvencek.hpp"
 #include <iostream>
 //Tesztprogram jelez ha kedvencek letrejottek
