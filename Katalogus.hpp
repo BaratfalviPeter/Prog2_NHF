@@ -18,9 +18,15 @@ class Katalogus{
     Film** TaroltFilm;
     int darab;
     int kapacitas;
-    //Noveli a tarpolo kapacitasat
+    /** 
+    * @brief  Megnoveli a tarolo kapacitasat a ketszeresere.
+    * Csak a hozzaad() hivja ha megtel a tarolo
+    */
     void atmeretez();
 public:
+    /**
+     * @brief Beallitja az alapertekeket es foglal egy alap 5 kapacitasu katalogust.
+    */
     Katalogus();
     //A film indexe alapjan visszaadja az adott film mutatojat
     Film* getterFilm(int index) const;
@@ -30,10 +36,20 @@ public:
     void kereses(const std::string& cim) const;
     //Cim es ev szerint kikeresi a katalogusbol az adott filmet
     Film* filmLekerdez (const std::string& cim, int ev) const;
-    //Kilistazza a katalogust
+    
+    /**
+    * @brief Kilistazza a katalogus tartalmat es sorszamot rak az elemek ele
+    * Nem valtoztatja a lista szerkezetet/elemeit
+    */
     void listazas() const;
-    //Hozzaad a katalogushoz
+    
+    /**
+     * @brief Hozzaadja a katalogushoz az uj filmet
+     * @param film Egy film pointert kap.
+     */
+    
     void hozzaad(Film* film);
+
     //Torol a katalogusbol veglegesen
     void torles(int index);
     //Elore megadott fix fajlba menti a katalogus tartalmat

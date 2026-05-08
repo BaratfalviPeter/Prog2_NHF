@@ -25,9 +25,11 @@ void Logika::inditas() {
     DokumentumFilm* uj_dfilm = new DokumentumFilm("Farkasok",90,2030,"Falka");
     uj_csfilm->kiir();
     uj_dfilm->kiir();
-    ujFilmHozzaad(uj_csfilm);
-    ujFilmHozzaad(uj_dfilm);
+    katalogusTarolo.hozzaad(uj_csfilm);
+    katalogusTarolo.hozzaad(uj_dfilm);
+    katalogusTarolo.listazas();
     kedvencekTarolo.hozzaad(uj_csfilm);
     delete uj_csfilm;
     delete uj_dfilm;
+    
 }
