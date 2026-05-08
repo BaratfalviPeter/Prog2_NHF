@@ -1,4 +1,4 @@
-//WM53NO
+#WM53NO
 CXX = clang++
 CXXFLAGS = -Wall -Wextra -std=c++11 -g -fsanitize=address
 LDFLAGS = -fsanitize=address

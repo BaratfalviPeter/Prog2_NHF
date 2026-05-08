@@ -9,7 +9,9 @@ Film::~Film() {}
 CsaladiFilm::CsaladiFilm(const std::string& n, int i, int k, int kh) : Film(n, i, k), korhatar(kh) {
     std::cout << "Csaladi film letrejott" << std::endl;
 }
-void CsaladiFilm::kiir() const  {}
+void CsaladiFilm::kiir() const  {
+    std::cout<<"Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes:" << keletkezes << " ; " << "Korhatar: " << korhatar << std::endl;
+}
 void CsaladiFilm::mentes() const  {}
 //Tesztprogram jelez ha a cs_film  meghalt
 CsaladiFilm::~CsaladiFilm() {
@@ -20,7 +22,9 @@ CsaladiFilm::~CsaladiFilm() {
 DokumentumFilm::DokumentumFilm(const std::string& n, int i, int k, const std::string& l) : Film(n, i, k), leiras(l) {
     std::cout << "Dokumentum film letrejott" << std::endl;
 }
-void DokumentumFilm::kiir() const {}
+void DokumentumFilm::kiir() const {
+     std::cout<<"Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes:" << keletkezes << " ; " << "Leiras: " << leiras << std::endl;
+}
 void DokumentumFilm::mentes() const {}
 //Tesztprogram jelez ha a d_film meghalt
 DokumentumFilm::~DokumentumFilm() {
