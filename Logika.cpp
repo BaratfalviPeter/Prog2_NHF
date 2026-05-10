@@ -29,7 +29,7 @@ void Logika::inditas() {
     katalogusTarolo.hozzaad(uj_dfilm);
     katalogusTarolo.listazas();
     kedvencekTarolo.hozzaad(uj_csfilm);
-    delete uj_csfilm;
-    delete uj_dfilm;
+    kedvencekTarolo.listazas();
+    
     
 }
