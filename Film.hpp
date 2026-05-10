@@ -14,7 +14,7 @@ public:
     //Teljesen virtualis fuggveny kesobb lesz felulirva
     virtual void kiir() const = 0;
     //Teljesen virtualis fuggveny kesobb lesz felulirva
-    virtual void mentes() const = 0;
+    virtual void mentes(std::ostream& os) const = 0;
     virtual ~Film();
 };
 
@@ -25,7 +25,7 @@ public:
     //Kiiraja a kepernyore az adott film adatait.
     void kiir() const override;
     //Elmenti az adott film adatait a specialis formatumba
-    void mentes() const override;
+    void mentes(std::ostream& os) const override;
     ~CsaladiFilm();
 };
 
@@ -36,6 +36,6 @@ public:
     //Kiiraja a kepernyore az adott film adatait.
     void kiir() const override;
     //Elmenti az adott film adatait a specialis formatumba
-    void mentes() const override;
+    void mentes(std::ostream& os) const override;
     ~DokumentumFilm();
 };

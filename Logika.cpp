@@ -30,6 +30,9 @@ void Logika::inditas() {
     katalogusTarolo.listazas();
     kedvencekTarolo.hozzaad(uj_csfilm);
     kedvencekTarolo.listazas();
+    katalogusTarolo.mentes();
+    katalogusTarolo.betoltes();
+    katalogusTarolo.listazas();
     
     
 }

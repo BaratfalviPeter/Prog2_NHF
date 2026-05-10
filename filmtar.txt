@@ -1,0 +1,2 @@
+CS;Alma;120;1990;12
+D;Farkasok;90;2030;Falka

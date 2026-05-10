@@ -1,6 +1,8 @@
 //WM53NO
 #include "Katalogus.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 //Tesztprogram jelez ha a Katalogus letrejott
 Katalogus::Katalogus() {
@@ -63,5 +65,51 @@ void Katalogus::torles(int index) {
 
     
 }
-void Katalogus::mentes() const {}
-void Katalogus::betoltes() {}
+void Katalogus::mentes() const {
+    std::ofstream KatalogusMentes("filmtar.txt");
+    if (!KatalogusMentes.is_open())
+    {
+        return;
+    }
+    for (size_t i = 0; i < darab; i++)
+    {
+        TaroltFilm[i]->mentes(KatalogusMentes);
+    }
+    KatalogusMentes.close();
+    std::cout<<"mentes sikerult"<<std::endl;
+    
+}
+void Katalogus::betoltes() {
+    std::ifstream KatalogusBetoltes("filmtar.txt");
+    std::string sor;
+    while (std::getline(KatalogusBetoltes,sor))
+    {
+        std::string tipus;
+        std::stringstream ss(sor);
+        std::getline(ss,tipus,';');
+        if (tipus == "CS")
+        {
+            std::string nev,ido,keletkezes,korhatar;
+            std::getline(ss,nev,';');
+            std::getline(ss,ido,';');
+            std::getline(ss,keletkezes,';');
+            std::getline(ss,korhatar);
+            CsaladiFilm* uj_csfilm = new CsaladiFilm(nev,std::stoi(ido),std::stoi(keletkezes),std::stoi(korhatar));
+            hozzaad(uj_csfilm);
+        }
+        else if(tipus == "D")
+        {
+            std::string nev,ido,keletkezes,leiras;
+            std::getline(ss,nev,';');
+            std::getline(ss,ido,';');
+            std::getline(ss,keletkezes,';');
+            std::getline(ss,leiras);
+            DokumentumFilm* uj_dfilm = new DokumentumFilm(nev,std::stoi(ido),std::stoi(keletkezes),leiras);
+            hozzaad(uj_dfilm);
+        }
+        
+
+    }
+    std::cout<<"betoltes sikerult"<<std::endl;
+    
+}
