@@ -2,8 +2,32 @@
 #include "Logika.hpp"
 #include"Film.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
-void Logika::kedvencekBetolt() {}
+void Logika::kedvencekBetolt() {
+    std::ifstream KedvencekBetolt("kedvencektar.txt");
+    if (!KedvencekBetolt.is_open())
+    {
+        return;
+    }
+    
+    std::string sor;
+    while (std::getline(KedvencekBetolt,sor)){
+        std::stringstream ss(sor);
+        std::string nev , keletkezes;
+        std::getline(ss,nev,';');
+        std::getline(ss,keletkezes);
+        Film* be_kedvenc;
+        be_kedvenc = katalogusTarolo.filmLekerdez(nev,std::stoi(keletkezes));
+        if (be_kedvenc != nullptr)
+        {
+            kedvencekTarolo.hozzaad(be_kedvenc);
+
+        }
+    }
+}
+
 //A tesztprogram itt hasznalja a katalogus tarolot, bemutatja mukodeset. Tovabba a hozzaad metodust mutatja be
 void Logika::ujFilmHozzaad(Film* film) {
     katalogusTarolo.hozzaad(film);
@@ -35,6 +59,7 @@ void Logika::inditas() {
     katalogusTarolo.listazas();
     kedvencekTarolo.mentes();
     kedvencekTarolo.exportalas("kedvenceim");
+
     
     
 }

@@ -38,7 +38,17 @@ void Katalogus::atmeretez() {
 Film* Katalogus::getterFilm(int index) const {return nullptr;}
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {}
 void Katalogus::kereses(const std::string& cim) const {}
-Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {return nullptr;}
+Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
+    for (size_t i = 0; i < darab; i++)
+    {
+        if (TaroltFilm[i]->getNev()==cim && TaroltFilm[i]->getKeletkezes() == ev)
+        {
+            return TaroltFilm[i];
+        }
+        
+    }
+    return nullptr;    
+}
 void Katalogus::listazas() const {
     for (size_t i = 0; i < darab; i++) //Vegigmegy a katalogus tartalman
     {
