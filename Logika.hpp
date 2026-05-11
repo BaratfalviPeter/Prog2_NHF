@@ -8,7 +8,7 @@ class Logika{
     //Betolti a kedvencektar.txt bol az adatokt
     void kedvencekBetolt();
     //Uj filmet lehet hozzaadni a katalogushoz(A teszt mukodese miatt kap film parametert amugy nem kapna)
-    void ujFilmHozzaad(Film* film);
+    void ujFilmHozzaad();
     //Kilistazza a kataloguusban levo filmeket
     void filmKilistaz();
     //Egy cím megadasaval keres a katalogusban
