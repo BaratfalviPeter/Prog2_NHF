@@ -1,6 +1,8 @@
 //WM53NO
 #include "Kedvencek.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 //Tesztprogram jelez ha kedvencek letrejottek
 Kedvencek::Kedvencek() {
     std::cout << "A Kedvencek letrejottek" << std::endl;
@@ -12,7 +14,7 @@ Kedvencek::Kedvencek() {
 //Tesztprogram jelez ha kedvencek meghaltak
 Kedvencek::~Kedvencek() {
     std::cout << "A Kedvencek meghaltak" << std::endl;
-    delete KedvencFilm;
+    delete[] KedvencFilm;
 }
 
 void Kedvencek::atmeretez() {
@@ -30,7 +32,7 @@ void Kedvencek::listazas() const {
     for (size_t i = 0; i < darab; i++)
     {
         std::cout<<i+1<<". ";
-        KedvencFilm[i]->kiir();
+        KedvencFilm[i]->kiir(std::cout);
     }
     
 }
@@ -45,6 +47,10 @@ void Kedvencek::hozzaad(Film* film) {
     
 }
 void Kedvencek::torles(int index) {
+    if (index < 0 || index > darab)
+    {
+        return;
+    }
     darab--;
     for (size_t i = index; i < darab; i++)
     {
@@ -52,6 +58,30 @@ void Kedvencek::torles(int index) {
     }
     
 }
-void Kedvencek::mentes() const {}
-void Kedvencek::exportalas(const std::string& fajlnev)const {}
+void Kedvencek::mentes() const {
+    std::ofstream KedvencekMentes("kedvencektar.txt");
+    if (!KedvencekMentes.is_open())
+    {
+        return;
+    }
+    for (size_t i = 0; i < darab; i++)
+    {
+        KedvencekMentes << KedvencFilm[i]->getNev() << ";" <<KedvencFilm[i]->getKeletkezes()<< std::endl;
+    }
+    KedvencekMentes.close();
+    std::cout<<"mentes sikerult"<<std::endl;
+}
+void Kedvencek::exportalas(const std::string& fajlnev)const {
+     std::ofstream KedvencekMentes(fajlnev);
+    if (!KedvencekMentes.is_open())
+    {
+        return;
+    }
+    for (size_t i = 0; i < darab; i++)
+    {
+        KedvencFilm[i]->kiir(KedvencekMentes);
+    }
+    KedvencekMentes.close();
+    std::cout<<"export sikerult"<<std::endl;
+}
 

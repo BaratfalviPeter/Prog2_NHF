@@ -9,8 +9,8 @@ Film::~Film() {}
 CsaladiFilm::CsaladiFilm(const std::string& n, int i, int k, int kh) : Film(n, i, k), korhatar(kh) {
     std::cout << "Csaladi film letrejott" << std::endl;
 }
-void CsaladiFilm::kiir() const  {
-    std::cout<<"Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes: " << keletkezes << " ; " << "Korhatar: " << korhatar << std::endl;
+void CsaladiFilm::kiir(std::ostream& os) const  {
+    os << "Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes: " << keletkezes << " ; " << "Korhatar: " << korhatar << std::endl;
 }
 void CsaladiFilm::mentes(std::ostream& os) const  {
     os << "CS"<<";"<< nev << ";"<< ido << ";"<< keletkezes << ";" << korhatar << std::endl;
@@ -24,8 +24,8 @@ CsaladiFilm::~CsaladiFilm() {
 DokumentumFilm::DokumentumFilm(const std::string& n, int i, int k, const std::string& l) : Film(n, i, k), leiras(l) {
     std::cout << "Dokumentum film letrejott" << std::endl;
 }
-void DokumentumFilm::kiir() const {
-     std::cout<<"Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes: " << keletkezes << " ; " << "Leiras: " << leiras << std::endl;
+void DokumentumFilm::kiir(std::ostream& os) const {
+     os << "Cim: "<< nev << " ; "<< "Idotartam: "<< ido << " ; "<< "Keletkezes: " << keletkezes << " ; " << "Leiras: " << leiras << std::endl;
 }
 void DokumentumFilm::mentes(std::ostream& os) const {
      os << "D"<<";"<< nev << ";"<< ido << ";"<< keletkezes << ";" << leiras << std::endl;

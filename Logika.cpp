@@ -23,8 +23,8 @@ void Logika::inditas() {
     std::cout << "A program elindult" << std::endl;
     CsaladiFilm* uj_csfilm = new CsaladiFilm("Alma",120,1990,12);
     DokumentumFilm* uj_dfilm = new DokumentumFilm("Farkasok",90,2030,"Falka");
-    uj_csfilm->kiir();
-    uj_dfilm->kiir();
+    uj_csfilm->kiir(std::cout);
+    uj_dfilm->kiir(std::cout);
     katalogusTarolo.hozzaad(uj_csfilm);
     katalogusTarolo.hozzaad(uj_dfilm);
     katalogusTarolo.listazas();
@@ -33,6 +33,8 @@ void Logika::inditas() {
     katalogusTarolo.mentes();
     katalogusTarolo.betoltes();
     katalogusTarolo.listazas();
+    kedvencekTarolo.mentes();
+    kedvencekTarolo.exportalas("kedvenceim");
     
     
 }

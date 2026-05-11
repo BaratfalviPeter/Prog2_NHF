@@ -11,8 +11,14 @@ protected:
 public:
     Film();
     Film(const std::string& n, int i, int k);
+    std::string getNev()const{
+        return nev;
+    }
+    int getKeletkezes() const{
+        return keletkezes;
+    }
     //Teljesen virtualis fuggveny kesobb lesz felulirva
-    virtual void kiir() const = 0;
+    virtual void kiir(std::ostream& os) const = 0;
     //Teljesen virtualis fuggveny kesobb lesz felulirva
     virtual void mentes(std::ostream& os) const = 0;
     virtual ~Film();
@@ -23,7 +29,7 @@ class CsaladiFilm : public Film{
 public:
     CsaladiFilm(const std::string& n, int i, int k, int kh);
     //Kiiraja a kepernyore az adott film adatait.
-    void kiir() const override;
+    void kiir(std::ostream& os) const override;
     //Elmenti az adott film adatait a specialis formatumba
     void mentes(std::ostream& os) const override;
     ~CsaladiFilm();
@@ -34,7 +40,7 @@ class DokumentumFilm : public Film{
 public:
     DokumentumFilm(const std::string& n, int i, int k, const std::string& l);
     //Kiiraja a kepernyore az adott film adatait.
-    void kiir() const override;
+    void kiir(std::ostream& os) const override;
     //Elmenti az adott film adatait a specialis formatumba
     void mentes(std::ostream& os) const override;
     ~DokumentumFilm();

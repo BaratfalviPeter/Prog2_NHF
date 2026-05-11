@@ -43,7 +43,7 @@ void Katalogus::listazas() const {
     for (size_t i = 0; i < darab; i++) //Vegigmegy a katalogus tartalman
     {
         std::cout<< i+1 << ". "; //Sorszamot tesz minden sor ele 
-        TaroltFilm[i]->kiir(); //Minden elemre meghivja a kiir() metodust
+        TaroltFilm[i]->kiir(std::cout); //Minden elemre meghivja a kiir() metodust
     }
     
 }
@@ -55,6 +55,11 @@ void Katalogus::hozzaad(Film* film) {
     TaroltFilm[darab++] = film; //A tarolohoz hozzaadjuk az uj filmet es noveljuk a darabszamot
 }
 void Katalogus::torles(int index) {
+    if (index < 0 || index > darab)
+    {
+        return;
+    }
+    
     delete TaroltFilm[index]; //Torli az adott elemet
     darab--; //Csokkenti a darabszamot
     for (size_t i = index; i < darab; i++) //A torolt elem indexetol elindul a vegeig
