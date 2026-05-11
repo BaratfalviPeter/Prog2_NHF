@@ -35,7 +35,13 @@ void Katalogus::atmeretez() {
     
 }
 
-Film* Katalogus::getterFilm(int index) const {return nullptr;}
+Film* Katalogus::getterFilm(int index) const {
+    if (index <= darab && index > 0)
+    {
+        return TaroltFilm[index-1];
+    }
+    return nullptr;
+}
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {}
 void Katalogus::kereses(const std::string& cim) const {}
 Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
