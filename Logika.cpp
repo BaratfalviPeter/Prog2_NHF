@@ -179,6 +179,7 @@ void Logika::filmTorol() {
 }
 void Logika::kilepes() {
     katalogusTarolo.mentes();
+    kedvencekTarolo.mentes();
 }
 //Tesztrogram lefutasa
 //A tesztprogram megmutatja a ctor/dtor hivasokat tovabba a katalogushoz adast. A kedvencek tarolo mukodeset is bemutatja
