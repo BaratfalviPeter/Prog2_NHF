@@ -203,6 +203,7 @@ void Logika::inditas() {
     kedvencekTarolo.exportalas("kedvenceim");
     */
     katalogusTarolo.betoltes();
+    kedvencekBetolt();
     int valasztas = 10;
     while (valasztas != 0)
     {

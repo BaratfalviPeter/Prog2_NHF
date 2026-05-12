@@ -1,1 +1,2 @@
 CS;Alma;120;1990;12
+D;Farkas;90;2001;falka
