@@ -89,15 +89,15 @@ void Logika::filmKilistaz() {
             break;
 
         case 2:
-            
+            //kesobb csinalom
             break;
 
         case 3:
-            
+            //kesobb csinalom
             break;
 
         case 0:
-            
+            //visszalepes itt tortenik
             break;
 
        
@@ -105,13 +105,44 @@ void Logika::filmKilistaz() {
             std::cout << "Hibas valsztas!!" << std::endl;
             break;
         }
-    //rendezes ide jon
+
     }
       
     
 }
 void Logika::filmKereses() {}
-void Logika::kedvencek() {}
+void Logika::kedvencek() {
+    
+    int valasztas = 3;
+    
+    while (valasztas != 0)
+    {
+        kedvencekTarolo.listazas();
+        std::cout << "1. Kedvencek exportalasa, 2. Kedvencek kozul torles, 0. Visszalepes" << std::endl;
+        std::cout << "Valasztas: ";
+        std::cin >> valasztas;
+        std::cout << std::endl;
+        switch (valasztas)
+        {
+        case 1:
+            kedvencekExport();
+            break;
+
+        case 2:
+            kedvencekTorol();
+            break;
+
+        case 0:
+            // A program visszalep
+            break;
+        
+        default:
+            break;
+        }
+    }
+    
+    
+}
 void Logika::kedvencekhezAd(int index) {
     if (katalogusTarolo.getterFilm(index) == nullptr)
     {
@@ -121,10 +152,26 @@ void Logika::kedvencekhezAd(int index) {
     kedvencekTarolo.hozzaad(katalogusTarolo.getterFilm(index));
     
 }
-void Logika::kedvencekExport() {}
-void Logika::kedvencekTorol() {}
+void Logika::kedvencekExport() {
+    std::string fajlnev;
+    std::cout << "Adja meg a fajl nevet: ";
+    std::cin >> fajlnev;
+    kedvencekTarolo.exportalas(fajlnev);
+    std::cout << std::endl;
+    std::cout << "Exportalas sikeres!" << std::endl;
+}
+void Logika::kedvencekTorol() {
+    int index;
+    std::cout << "Adja meg a torolni kivant kedvenc sorszamat: ";
+    std::cin >> index;
+    kedvencekTarolo.torles(index);
+    std::cout << std::endl;
+    std::cout << "Torles sikeres!" << std::endl;
+}
 void Logika::filmTorol() {}
-void Logika::kilepes() {}
+void Logika::kilepes() {
+    katalogusTarolo.mentes();
+}
 //Tesztrogram lefutasa
 //A tesztprogram megmutatja a ctor/dtor hivasokat tovabba a katalogushoz adast. A kedvencek tarolo mukodeset is bemutatja
 void Logika::inditas() {
@@ -146,6 +193,7 @@ void Logika::inditas() {
     kedvencekTarolo.mentes();
     kedvencekTarolo.exportalas("kedvenceim");
     */
+    katalogusTarolo.betoltes();
     int valasztas = 10;
     while (valasztas != 0)
     {
@@ -172,13 +220,15 @@ void Logika::inditas() {
             break;
 
         case 4:
-            kedvencekTarolo.listazas(); //teszteleshez
+            kedvencek();
             break;
 
         case 5:
+            filmTorol();
             break;
 
         case 0:
+            kilepes();
             break;
         default:
             std::cout << "Hibas valsztas!!" << std::endl;
