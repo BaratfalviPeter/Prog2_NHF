@@ -113,7 +113,7 @@ void Logika::filmKilistaz() {
 void Logika::filmKereses() {
     std::string cim;
     std::cout << "Adja meg a keresett film cimet: ";
-    std::cin >> cim;
+    std::getline(std::cin >> std::ws, cim);
     katalogusTarolo.kereses(cim);
 } 
 
@@ -179,6 +179,7 @@ void Logika::filmTorol() {
     katalogusTarolo.listazas();
     std::cout << "Adja meg a torolni kivant film sorszamat: ";
     std::cin >> index;
+    kedvencekTarolo.torles(index);
     katalogusTarolo.torles(index);
     std::cout << "torles sikeres" << std::endl; // teszteleshez
 
@@ -252,7 +253,7 @@ void Logika::inditas() {
         }
     }
     
-
+    //TODO: betuk irasa szam helyett!!
     
     
 }
