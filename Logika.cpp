@@ -1,6 +1,6 @@
 //WM53NO
 #include "Logika.hpp"
-#include"Film.hpp"
+#include "Film.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -89,11 +89,11 @@ void Logika::filmKilistaz() {
             break;
 
         case 2:
-            //kesobb csinalom
+            //TODO::
             break;
 
         case 3:
-            //kesobb csinalom
+            //TODO:
             break;
 
         case 0:
@@ -110,7 +110,8 @@ void Logika::filmKilistaz() {
       
     
 }
-void Logika::filmKereses() {}
+void Logika::filmKereses() {} //TODO::
+
 void Logika::kedvencek() {
     
     int valasztas = 3;
