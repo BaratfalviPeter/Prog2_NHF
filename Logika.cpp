@@ -110,7 +110,12 @@ void Logika::filmKilistaz() {
       
     
 }
-void Logika::filmKereses() {} //TODO::
+void Logika::filmKereses() {
+    std::string cim;
+    std::cout << "Adja meg a keresett film cimet: ";
+    std::cin >> cim;
+    katalogusTarolo.kereses(cim);
+} //TODO::
 
 void Logika::kedvencek() {
     
@@ -227,7 +232,7 @@ void Logika::inditas() {
             filmKilistaz();
             break;
         case 3:
-            //kesobb megcsinalom
+            filmKereses();
             break;
 
         case 4:

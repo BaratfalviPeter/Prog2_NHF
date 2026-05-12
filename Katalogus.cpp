@@ -44,7 +44,18 @@ Film* Katalogus::getterFilm(int index) const {
 }
 
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {} //TODO:
-void Katalogus::kereses(const std::string& cim) const {} //TODO:
+
+void Katalogus::kereses(const std::string& cim) const {
+    for (size_t i = 0; i < darab; i++)
+    {
+        if (TaroltFilm[i]->getNev().find(cim) != std::string::npos)
+        {
+            TaroltFilm[i]->kiir(std::cout);
+        }
+        
+    }
+    
+} //TODO:
 
 Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
     for (size_t i = 0; i < darab; i++)
