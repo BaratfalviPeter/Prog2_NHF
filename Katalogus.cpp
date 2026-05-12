@@ -55,7 +55,7 @@ void Katalogus::kereses(const std::string& cim) const {
         
     }
     
-} //TODO:
+} 
 
 Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
     for (size_t i = 0; i < darab; i++)

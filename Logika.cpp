@@ -115,7 +115,7 @@ void Logika::filmKereses() {
     std::cout << "Adja meg a keresett film cimet: ";
     std::cin >> cim;
     katalogusTarolo.kereses(cim);
-} //TODO::
+} 
 
 void Logika::kedvencek() {
     
