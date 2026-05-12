@@ -70,12 +70,57 @@ void Logika::ujFilmHozzaad() {
 }
 
 void Logika::filmKilistaz() {
-    katalogusTarolo.listazas();
+    int valasztas = 5;
+
+    while (valasztas != 0)
+    {
+        katalogusTarolo.listazas();
+        std::cout << "1. Kedvencekhez hozzaadas, 2. Rendezesi szempont, 3. Novekvo/Csokkeno sorrend, 0. Visszalepes" << std::endl;
+        std::cout << "Valasztas: ";
+        std::cin >> valasztas;
+        switch (valasztas)
+        {
+        case 1:
+            int index;
+            std::cout << std::endl << "Adja meg a kedvencekhez kivant adni film sorszamat: ";
+            std::cin >> index;
+            std::cout << std::endl;
+            kedvencekhezAd(index);
+            break;
+
+        case 2:
+            
+            break;
+
+        case 3:
+            
+            break;
+
+        case 0:
+            
+            break;
+
+       
+        default:
+            std::cout << "Hibas valsztas!!" << std::endl;
+            break;
+        }
     //rendezes ide jon
+    }
+      
+    
 }
 void Logika::filmKereses() {}
 void Logika::kedvencek() {}
-void Logika::kedvencekhezAd() {}
+void Logika::kedvencekhezAd(int index) {
+    if (katalogusTarolo.getterFilm(index) == nullptr)
+    {
+        std::cout << "Nem talalhato ez a film." << std::endl;
+        return;
+    }
+    kedvencekTarolo.hozzaad(katalogusTarolo.getterFilm(index));
+    
+}
 void Logika::kedvencekExport() {}
 void Logika::kedvencekTorol() {}
 void Logika::filmTorol() {}
@@ -127,7 +172,7 @@ void Logika::inditas() {
             break;
 
         case 4:
-            
+            kedvencekTarolo.listazas(); //teszteleshez
             break;
 
         case 5:

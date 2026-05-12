@@ -16,7 +16,7 @@ class Logika{
     //Belelep a kedvencek almenube, kilistazza a kedvenceket
     void kedvencek();
     //A felhasznalotol kap egy kedvencekhez kivant adni film idexet es hozzaadja 
-    void kedvencekhezAd();
+    void kedvencekhezAd(int index);
     //Exportalja a kedvenceket egy txt fajlba amit a felhasznalo kedve szerint hasznalhat utanna
     void kedvencekExport();
     //Megadott index alapjan torol a kedvencek kozul
