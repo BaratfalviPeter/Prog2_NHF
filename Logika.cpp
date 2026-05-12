@@ -168,7 +168,15 @@ void Logika::kedvencekTorol() {
     std::cout << std::endl;
     std::cout << "Torles sikeres!" << std::endl;
 }
-void Logika::filmTorol() {}
+void Logika::filmTorol() {
+    int index;
+    katalogusTarolo.listazas();
+    std::cout << "Adja meg a torolni kivant film sorszamat: ";
+    std::cin >> index;
+    katalogusTarolo.torles(index);
+    std::cout << "torles sikeres" << std::endl; // teszteleshez
+
+}
 void Logika::kilepes() {
     katalogusTarolo.mentes();
 }
