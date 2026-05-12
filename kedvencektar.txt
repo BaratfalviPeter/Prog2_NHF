@@ -1,1 +1,14 @@
-Farkas;2001
+King Kong;1933
+King Kong;2005
+Aladdin;2019
+Oroszlan kiraly;1994
+Oroszlan kiraly;2019
+Godzilla;1998
+Matilda;2022
+Space Jam;1996
+A bolygo neve Fold;2006
+Shrek;2001
+Harry Potter es a bolcek kove;2001
+David Attenborough Egy elet a bolygonkon;2020
+Agymanok;2015
+Agymanok 2;2024
