@@ -58,6 +58,20 @@ void Kedvencek::torles(int index) {
     }
     
 }
+
+void Kedvencek::mutato_eltavolitas(Film* keresett){
+    for (size_t i = 0; i < darab; i++)
+    {
+        if (KedvencFilm[i] == keresett)
+        {
+            torles(i);
+            return;
+        }
+        
+    }
+    
+}
+
 void Kedvencek::mentes() const {
     std::ofstream KedvencekMentes("kedvencektar.txt");
     if (!KedvencekMentes.is_open())

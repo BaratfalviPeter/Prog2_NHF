@@ -31,7 +31,7 @@ void Logika::kedvencekBetolt() {
 //A tesztprogram itt hasznalja a katalogus tarolot, bemutatja mukodeset. Tovabba a hozzaad metodust mutatja be
 void Logika::ujFilmHozzaad() {
     
-    int valasztas = 0;
+    int valasztas = -1;
     std::string nev, leiras;
     int ido, keletkezes, korhatar;
     while (valasztas != 1 && valasztas != 2)
@@ -40,23 +40,91 @@ void Logika::ujFilmHozzaad() {
         std::cout<< "2. Dokumentumfim" << std::endl;
         std::cout<< "Valassza ki a film tipusat: " ;
         std::cin >> valasztas;
-        if (valasztas != 1 && valasztas != 2)
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            valasztas = -1;
+            continue;
+        }
+        else if (valasztas != 1 && valasztas != 2)
         {
             std::cout << "Rossz szamot valasztott adja meg ujra!" << std::endl;
+            continue;
         }
         
     }
     
     std::cout << std::endl << "Adja meg a film nevet: ";
     std::getline(std::cin >> std::ws, nev);
-    std::cout << std::endl << "Adja meg a film hosszat: ";
-    std::cin >> ido;
-    std::cout << std::endl << "Adja meg a film keletkezeset: ";
-    std::cin >> keletkezes;
+    bool sikeres_ido = false;
+    while (!sikeres_ido)
+    {
+        std::cout << std::endl << "Adja meg a film hosszat: ";
+        std::cin >> ido;
+        if (std::cin.fail() || ido < 1)
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            
+            continue;
+        }
+        
+        else {
+            std::cin.ignore(10000, '\n');
+            sikeres_ido = true;
+            
+        }
+    }
+
+    bool sikeres_kel = false;
+    while (!sikeres_kel)
+    {
+        std::cout << std::endl << "Adja meg a film keletkezeset: ";
+        std::cin >> keletkezes;
+        if (std::cin.fail() || keletkezes < 1 || keletkezes > 2026)
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            
+            continue;
+        }
+        
+        else {
+            std::cin.ignore(10000, '\n');
+            sikeres_kel = true;
+            
+        }
+    }
+    
     if (valasztas == 1)
     {
-        std::cout << std::endl << "Adja meg a film korhatarat: ";
-        std::cin >> korhatar;
+        bool sikeres_kor = false;
+        while (!sikeres_kor)
+        {
+            std::cout << std::endl << "Adja meg a film korhatarat: ";
+            std::cin >> korhatar;
+            if (std::cin.fail() || korhatar < 1)
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+                
+                continue;
+            }
+            
+            else {
+                std::cin.ignore(10000, '\n');
+                sikeres_kor = true;
+                
+            }
+        }
+
+        
+
         CsaladiFilm* uj_csfilm = new CsaladiFilm(nev,ido,keletkezes,korhatar);
         katalogusTarolo.hozzaad(uj_csfilm);
     }
@@ -70,7 +138,7 @@ void Logika::ujFilmHozzaad() {
 }
 
 void Logika::filmKilistaz() {
-    int valasztas = 5;
+    int valasztas = -1;
 
     while (valasztas != 0)
     {
@@ -78,6 +146,25 @@ void Logika::filmKilistaz() {
         std::cout << "1. Kedvencekhez hozzaadas, 2. Rendezesi szempont, 3. Novekvo/Csokkeno sorrend, 0. Visszalepes" << std::endl;
         std::cout << "Valasztas: ";
         std::cin >> valasztas;
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            std::cout << "Folytatshoz nyomj entert.....";
+            std::cin.get();
+            valasztas = -1;
+            continue;
+        }
+        else if (valasztas < 0 || valasztas > 3)
+        {
+            std::cin.ignore(10000, '\n');
+            std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
+            std::cout << "Folytatshoz nyomj entert....." ;
+            std::cin.get();
+            valasztas = -1;
+            continue;
+        }
         switch (valasztas)
         {
         case 1:
@@ -90,10 +177,12 @@ void Logika::filmKilistaz() {
 
         case 2:
             //TODO::
+            std::cout << "mukodik" << std::endl;
             break;
 
         case 3:
             //TODO:
+            std::cout << "mukodik" << std::endl;
             break;
 
         case 0:
@@ -119,7 +208,7 @@ void Logika::filmKereses() {
 
 void Logika::kedvencek() {
     
-    int valasztas = 3;
+    int valasztas = -1;
     
     while (valasztas != 0)
     {
@@ -127,6 +216,24 @@ void Logika::kedvencek() {
         std::cout << "1. Kedvencek exportalasa, 2. Kedvencek kozul torles, 0. Visszalepes" << std::endl;
         std::cout << "Valasztas: ";
         std::cin >> valasztas;
+       if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            std::cout << "Folytatshoz nyomj entert....." ;
+            std::cin.get();
+            valasztas = -1;
+            continue;
+        }
+        else if (valasztas < 0 || valasztas > 2)
+        {
+            std::cin.ignore(10000, '\n');
+            std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
+            std::cout << "Folytatshoz nyomj entert....." ;
+            std::cin.get();
+            continue;
+        }
         std::cout << std::endl;
         switch (valasztas)
         {
@@ -175,15 +282,38 @@ void Logika::kedvencekTorol() {
     std::cout << "Torles sikeres!" << std::endl;
 }
 void Logika::filmTorol() {
-    int index;
-    katalogusTarolo.listazas();
-    std::cout << "Adja meg a torolni kivant film sorszamat: ";
-    std::cin >> index;
-    kedvencekTarolo.torles(index);
-    katalogusTarolo.torles(index);
-    std::cout << "torles sikeres" << std::endl; // teszteleshez
+    bool helyes_index = false;
+    while (!helyes_index)
+    {
+        int index;
+        katalogusTarolo.listazas();
+        std::cout << "Adja meg a torolni kivant film sorszamat: ";
+        std::cin >> index;
+        if (std::cin.fail() || index < 1 || index > katalogusTarolo.get_db())
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            std::cout << "Folytatshoz nyomj entert.....";
+            std::cin.get();
+            
+            continue;
+        }
+        
+        else {
+            std::cin.ignore(10000, '\n');
+            helyes_index = true;
+            
+        }
+        kedvencekTarolo.mutato_eltavolitas(katalogusTarolo.getterFilm(index));
+        katalogusTarolo.torles(index-1);
+        std::cout << "torles sikeres" << std::endl; // teszteleshez
+    }
+    
 
 }
+
+
 void Logika::kilepes() {
     katalogusTarolo.mentes(); //mukodik
     kedvencekTarolo.mentes(); //mukodik
@@ -211,7 +341,7 @@ void Logika::inditas() {
     */
     katalogusTarolo.betoltes();
     kedvencekBetolt();
-    int valasztas = 10;
+    int valasztas = -1;
     while (valasztas != 0)
     {
         std::cout << "1. Film hozzaadasa" << std::endl;
@@ -223,6 +353,20 @@ void Logika::inditas() {
 
         std::cout << "Valasztas: ";
         std::cin >> valasztas;
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+            valasztas = -1;
+            continue;
+        }
+        else if (valasztas < 0 || valasztas > 5)
+        {
+            std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
+            continue;
+        }
+        
 
         switch (valasztas)
         {

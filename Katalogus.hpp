@@ -28,6 +28,7 @@ public:
      * @brief Beallitja az alapertekeket es foglal egy alap 5 kapacitasu katalogust.
     */
     Katalogus();
+    int get_db() const {return darab;}
     //A film indexe alapjan visszaadja az adott film mutatojat
     Film* getterFilm(int index) const;
     //Rendezi a katalogust

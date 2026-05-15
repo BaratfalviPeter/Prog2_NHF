@@ -48,3 +48,4 @@ D;Szenvedelyem a tenger;85;2020;Dokumentumfilm egy poliprol
 D;A tengeri fovaros;85;2017;Dokumentumfilm a korallzatonyokrol
 D;David Attenborough Egy elet a bolygonkon;83;2020;Visszatekintes a termeszetre
 D;A sulyos igazsag;100;2006;Dokumentumfilm a globalis felmelegedesrol
+
