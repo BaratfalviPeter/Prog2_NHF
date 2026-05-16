@@ -4,9 +4,9 @@
 #include <string>
 //Rendezes szempontja
 enum Rend_szempont{
-    Cim = 1,
-    Keletkezes = 2,
-    Ido = 3
+    Cim = 2,
+    Keletkezes = 3,
+    Ido = 4
 };
 //Rendezes iranya
 enum Irany{
@@ -29,6 +29,7 @@ public:
     */
     Katalogus();
     int get_db() const {return darab;}
+    
     //A film indexe alapjan visszaadja az adott film mutatojat
     Film* getterFilm(int index) const;
     //Rendezi a katalogust

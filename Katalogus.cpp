@@ -43,7 +43,90 @@ Film* Katalogus::getterFilm(int index) const {
     return nullptr;
 }
 
-void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {} //TODO:
+void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
+    if (darab < 2)
+    {
+        return;
+    }
+    
+
+    for (size_t i = 0; i < darab-1; i++)
+    {
+        for (size_t j = 0; j < darab-i-1; j++)
+        {
+            bool rossz_e = false;
+            
+            if (szempont == Cim)
+            {
+                if (irany == Nov)
+                {
+                    if (TaroltFilm[j]->getNev() > TaroltFilm[j+1]->getNev())
+                    {
+                        rossz_e = true;
+                    }
+                }
+
+                else if (irany == Csokk)
+                {
+                    if (TaroltFilm[j]->getNev() < TaroltFilm[j+1]->getNev())
+                    {
+                        rossz_e = true;
+                    }
+                }
+                
+            }
+
+            else if (szempont == Ido)
+            {
+                if (irany == Nov)
+                {
+                    if (TaroltFilm[j]->get_ido() > TaroltFilm[j+1]->get_ido())
+                    {
+                        rossz_e = true;
+                    }
+                }
+
+                else if (irany == Csokk)
+                {
+                    if (TaroltFilm[j]->get_ido() < TaroltFilm[j+1]->get_ido())
+                    {
+                        rossz_e = true;
+                    }
+                }
+            }
+
+            else if (szempont == Keletkezes)
+            {
+                if (irany == Nov)
+                {
+                    if (TaroltFilm[j]->getKeletkezes() > TaroltFilm[j+1]->getKeletkezes())
+                    {
+                        rossz_e = true;
+                    }
+                }
+
+                else if (irany == Csokk)
+                {
+                    if (TaroltFilm[j]->getKeletkezes() < TaroltFilm[j+1]->getKeletkezes())
+                    {
+                        rossz_e = true;
+                    }
+                }
+                
+            }
+
+            if (rossz_e == true)
+            {
+                Film* temp = TaroltFilm[j];
+                TaroltFilm[j] = TaroltFilm[j+1];
+                TaroltFilm[j+1] = temp;
+            }
+
+        }
+        
+    }
+    
+} 
 
 void Katalogus::kereses(const std::string& cim) const {
     for (size_t i = 0; i < darab; i++)
@@ -88,7 +171,7 @@ void Katalogus::torles(int index) {
     {
         return;
     }
-    
+    index--;
     delete TaroltFilm[index]; //Torli az adott elemet
     darab--; //Csokkenti a darabszamot
     for (size_t i = index; i < darab; i++) //A torolt elem indexetol elindul a vegeig

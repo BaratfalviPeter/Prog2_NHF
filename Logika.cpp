@@ -139,64 +139,91 @@ void Logika::ujFilmHozzaad() {
 
 void Logika::filmKilistaz() {
     int valasztas = -1;
-
-    while (valasztas != 0)
+    if (katalogusTarolo.get_db() == 0)
     {
-        katalogusTarolo.listazas();
-        std::cout << "1. Kedvencekhez hozzaadas, 2. Rendezesi szempont, 3. Novekvo/Csokkeno sorrend, 0. Visszalepes" << std::endl;
-        std::cout << "Valasztas: ";
-        std::cin >> valasztas;
-        if (std::cin.fail())
-        {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
-            std::cout << "Folytatshoz nyomj entert.....";
-            std::cin.get();
-            valasztas = -1;
-            continue;
-        }
-        else if (valasztas < 0 || valasztas > 3)
-        {
-            std::cin.ignore(10000, '\n');
-            std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
-            std::cout << "Folytatshoz nyomj entert....." ;
-            std::cin.get();
-            valasztas = -1;
-            continue;
-        }
-        switch (valasztas)
-        {
-        case 1:
-            int index;
-            std::cout << std::endl << "Adja meg a kedvencekhez kivant adni film sorszamat: ";
-            std::cin >> index;
-            std::cout << std::endl;
-            kedvencekhezAd(index);
-            break;
-
-        case 2:
-            //TODO::
-            std::cout << "mukodik" << std::endl;
-            break;
-
-        case 3:
-            //TODO:
-            std::cout << "mukodik" << std::endl;
-            break;
-
-        case 0:
-            //visszalepes itt tortenik
-            break;
-
-       
-        default:
-            std::cout << "Hibas valsztas!!" << std::endl;
-            break;
-        }
-
+        std::cout << "A katalogus meg ures!" << std::endl;
     }
-      
+    else
+    {
+        Rend_szempont aktualis_sz = Cim;
+        Irany aktualis_i = Nov;
+
+        while (valasztas != 0)
+        {
+            katalogusTarolo.listazas();
+            std::cout << "1. Kedvencekhez hozzaadas, 2. Cim szerinti rendezes, 3. Ido szerinti rendezes, 4. Keletkezes szerinti rendezes, 5. Novekvo/Csokkeno sorrend, 0. Visszalepes" << std::endl;
+            std::cout << "Valasztas: ";
+            std::cin >> valasztas;
+            if (std::cin.fail())
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+                std::cout << "Folytatshoz nyomj entert.....";
+                std::cin.get();
+                valasztas = -1;
+                continue;
+            }
+            else if (valasztas < 0 || valasztas > 5)
+            {
+                std::cin.ignore(10000, '\n');
+                std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
+                std::cout << "Folytatshoz nyomj entert....." ;
+                std::cin.get();
+                valasztas = -1;
+                continue;
+            }
+            switch (valasztas)
+            {
+            case 1:
+                int index;
+                std::cout << std::endl << "Adja meg a kedvencekhez kivant adni film sorszamat: ";
+                std::cin >> index;
+                std::cout << std::endl;
+                kedvencekhezAd(index);
+                break;
+
+            case 2:
+                aktualis_sz = Cim;
+                katalogusTarolo.rendezes(aktualis_sz,aktualis_i);
+                break;
+
+            case 3:
+                aktualis_sz = Ido;
+                katalogusTarolo.rendezes(aktualis_sz,aktualis_i);
+                break;
+
+            case 4:
+                aktualis_sz = Keletkezes;
+                katalogusTarolo.rendezes(aktualis_sz,aktualis_i);
+                break;
+
+
+            case 5:
+                if (aktualis_i == Nov)
+                {
+                    aktualis_i = Csokk;
+                }
+                else
+                {
+                    aktualis_i = Nov;
+                }
+                katalogusTarolo.rendezes(aktualis_sz,aktualis_i);
+                
+                break;
+
+            case 0:
+                //visszalepes itt tortenik
+                break;
+
+        
+            default:
+                std::cout << "Hibas valsztas!!" << std::endl;
+                break;
+            }
+
+        }
+    }
     
 }
 void Logika::filmKereses() {
@@ -209,51 +236,57 @@ void Logika::filmKereses() {
 void Logika::kedvencek() {
     
     int valasztas = -1;
-    
-    while (valasztas != 0)
+    if (kedvencekTarolo.get_db() == 0)
     {
-        kedvencekTarolo.listazas();
-        std::cout << "1. Kedvencek exportalasa, 2. Kedvencek kozul torles, 0. Visszalepes" << std::endl;
-        std::cout << "Valasztas: ";
-        std::cin >> valasztas;
-       if (std::cin.fail())
+        std::cout << "Meg ures a kedvencek tarolo" << std::endl;
+    }
+    else
+    {
+    
+        while (valasztas != 0)
         {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
-            std::cout << "Folytatshoz nyomj entert....." ;
-            std::cin.get();
-            valasztas = -1;
-            continue;
-        }
-        else if (valasztas < 0 || valasztas > 2)
-        {
-            std::cin.ignore(10000, '\n');
-            std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
-            std::cout << "Folytatshoz nyomj entert....." ;
-            std::cin.get();
-            continue;
-        }
-        std::cout << std::endl;
-        switch (valasztas)
-        {
-        case 1:
-            kedvencekExport();
-            break;
+            kedvencekTarolo.listazas();
+            std::cout << "1. Kedvencek exportalasa, 2. Kedvencek kozul torles, 0. Visszalepes" << std::endl;
+            std::cout << "Valasztas: ";
+            std::cin >> valasztas;
+        if (std::cin.fail())
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
+                std::cout << "Folytatshoz nyomj entert....." ;
+                std::cin.get();
+                valasztas = -1;
+                continue;
+            }
+            else if (valasztas < 0 || valasztas > 2)
+            {
+                std::cin.ignore(10000, '\n');
+                std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
+                std::cout << "Folytatshoz nyomj entert....." ;
+                std::cin.get();
+                continue;
+            }
+            std::cout << std::endl;
+            switch (valasztas)
+            {
+            case 1:
+                kedvencekExport();
+                break;
 
-        case 2:
-            kedvencekTorol();
-            break;
+            case 2:
+                kedvencekTorol();
+                break;
 
-        case 0:
-            // A program visszalep
-            break;
-        
-        default:
-            break;
+            case 0:
+                // A program visszalep
+                break;
+            
+            default:
+                break;
+            }
         }
     }
-    
     
 }
 void Logika::kedvencekhezAd(int index) {
@@ -306,7 +339,7 @@ void Logika::filmTorol() {
             
         }
         kedvencekTarolo.mutato_eltavolitas(katalogusTarolo.getterFilm(index));
-        katalogusTarolo.torles(index-1);
+        katalogusTarolo.torles(index);
         std::cout << "torles sikeres" << std::endl; // teszteleshez
     }
     

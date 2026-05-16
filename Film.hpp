@@ -14,6 +14,7 @@ public:
     std::string getNev()const{
         return nev;
     }
+    int get_ido() const {return ido;}
     int getKeletkezes() const{
         return keletkezes;
     }

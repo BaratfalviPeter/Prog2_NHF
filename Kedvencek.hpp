@@ -11,6 +11,7 @@ class Kedvencek{
     void atmeretez();
 public:
     Kedvencek();
+    int get_db() const {return darab;}
     //Kilistazza a tarolt elemeket
     void listazas() const;
     //A tarolohoz ad egy uj kedvencet(de szigoruan nem hoz letre ujat csak az adott film mutatojat menti)
