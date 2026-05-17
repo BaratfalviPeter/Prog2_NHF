@@ -36,6 +36,10 @@ public:
     
     //A film indexe alapjan visszaadja az adott film mutatojat
     Film* getterFilm(int index) const;
+    
+    bool rendezes_cim_jo_e(Irany ir, int hely);
+    bool rendezes_ido_jo_e(Irany ir, int hely);
+    bool rendezes_kel_jo_e(Irany ir, int hely);
     //Rendezi a katalogust
     void rendezes(Rend_szempont szempont, Irany irany);
     //Megadott cim szerint keres a katalogusban

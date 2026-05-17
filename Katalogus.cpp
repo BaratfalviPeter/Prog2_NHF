@@ -41,13 +41,54 @@ Film* Katalogus::getterFilm(int index) const {
     throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
 }
 
+bool Katalogus::rendezes_cim_jo_e(Irany ir, int hely){
+    if (ir == Nov)
+    {
+        return TaroltFilm[hely]->getNev() > TaroltFilm[hely+1]->getNev();
+        
+    }
+
+    else if (ir == Csokk)
+    {
+       return TaroltFilm[hely]->getNev() < TaroltFilm[hely+1]->getNev();
+        
+    }
+}
+
+bool Katalogus::rendezes_ido_jo_e(Irany ir, int hely){
+    if (ir == Nov)
+    {
+        return TaroltFilm[hely]->get_ido() > TaroltFilm[hely+1]->get_ido();
+        
+    }
+
+    else if (ir == Csokk)
+    {
+       return TaroltFilm[hely]->get_ido() < TaroltFilm[hely+1]->get_ido();
+        
+    }
+}
+
+bool Katalogus::rendezes_kel_jo_e(Irany ir, int hely){
+    if (ir == Nov)
+    {
+        return TaroltFilm[hely]->getKeletkezes() > TaroltFilm[hely+1]->getKeletkezes();
+        
+    }
+
+    else if (ir == Csokk)
+    {
+       return TaroltFilm[hely]->getKeletkezes() < TaroltFilm[hely+1]->getKeletkezes();
+        
+    }
+}
+
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
     if (darab < 2)
     {
-        return;
+        throw std::runtime_error("Nincs eleg elem a listaban!");
     }
     
-
     for (size_t i = 0; i < darab-1; i++)
     {
         for (size_t j = 0; j < darab-i-1; j++)
@@ -56,61 +97,18 @@ void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
             
             if (szempont == Cim)
             {
-                if (irany == Nov)
-                {
-                    if (TaroltFilm[j]->getNev() > TaroltFilm[j+1]->getNev())
-                    {
-                        rossz_e = true;
-                    }
-                }
-
-                else if (irany == Csokk)
-                {
-                    if (TaroltFilm[j]->getNev() < TaroltFilm[j+1]->getNev())
-                    {
-                        rossz_e = true;
-                    }
-                }
+                rossz_e = rendezes_cim_jo_e(irany,j);
                 
             }
 
             else if (szempont == Ido)
             {
-                if (irany == Nov)
-                {
-                    if (TaroltFilm[j]->get_ido() > TaroltFilm[j+1]->get_ido())
-                    {
-                        rossz_e = true;
-                    }
-                }
-
-                else if (irany == Csokk)
-                {
-                    if (TaroltFilm[j]->get_ido() < TaroltFilm[j+1]->get_ido())
-                    {
-                        rossz_e = true;
-                    }
-                }
+                rossz_e = rendezes_ido_jo_e(irany,j);
             }
 
             else if (szempont == Keletkezes)
             {
-                if (irany == Nov)
-                {
-                    if (TaroltFilm[j]->getKeletkezes() > TaroltFilm[j+1]->getKeletkezes())
-                    {
-                        rossz_e = true;
-                    }
-                }
-
-                else if (irany == Csokk)
-                {
-                    if (TaroltFilm[j]->getKeletkezes() < TaroltFilm[j+1]->getKeletkezes())
-                    {
-                        rossz_e = true;
-                    }
-                }
-                
+                rossz_e = rendezes_kel_jo_e(irany,j);
             }
 
             if (rossz_e == true)
