@@ -5,8 +5,10 @@
 class Logika{
     Katalogus katalogusTarolo;
     Kedvencek kedvencekTarolo;
+    static const int EVSZAM = 2026;
+    static const int MAX_PUFFER_MERET = 10000;
     //Betolti a kedvencektar.txt bol az adatokt
-    void kedvencekBetolt();
+    void kedvencekBetolt(const std::string& fajlnev);
     //Uj filmet lehet hozzaadni a katalogushoz(A teszt mukodese miatt kap film parametert amugy nem kapna)
     void ujFilmHozzaad();
     //Kilistazza a kataloguusban levo filmeket

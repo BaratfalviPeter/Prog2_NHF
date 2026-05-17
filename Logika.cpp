@@ -5,8 +5,8 @@
 #include <fstream>
 #include <sstream>
 
-void Logika::kedvencekBetolt() {
-    std::ifstream KedvencekBetolt("kedvencektar.txt");
+void Logika::kedvencekBetolt(const std::string& fajlnev) {
+    std::ifstream KedvencekBetolt(fajlnev);
     if (!KedvencekBetolt.is_open())
     {
         return;
@@ -28,7 +28,7 @@ void Logika::kedvencekBetolt() {
     }
 }
 
-//A tesztprogram itt hasznalja a katalogus tarolot, bemutatja mukodeset. Tovabba a hozzaad metodust mutatja be
+
 void Logika::ujFilmHozzaad() {
     
     int valasztas = -1;
@@ -43,7 +43,7 @@ void Logika::ujFilmHozzaad() {
         if (std::cin.fail())
         {
             std::cin.clear();
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
             valasztas = -1;
             continue;
@@ -66,14 +66,14 @@ void Logika::ujFilmHozzaad() {
         if (std::cin.fail() || ido < 1)
         {
             std::cin.clear();
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
             
             continue;
         }
         
         else {
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             sikeres_ido = true;
             
         }
@@ -84,17 +84,17 @@ void Logika::ujFilmHozzaad() {
     {
         std::cout << std::endl << "Adja meg a film keletkezeset: ";
         std::cin >> keletkezes;
-        if (std::cin.fail() || keletkezes < 1 || keletkezes > 2026)
+        if (std::cin.fail() || keletkezes < 1 || keletkezes > EVSZAM)
         {
             std::cin.clear();
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
             
             continue;
         }
         
         else {
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             sikeres_kel = true;
             
         }
@@ -110,14 +110,14 @@ void Logika::ujFilmHozzaad() {
             if (std::cin.fail() || korhatar < 1)
             {
                 std::cin.clear();
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
                 
                 continue;
             }
             
             else {
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 sikeres_kor = true;
                 
             }
@@ -150,14 +150,14 @@ void Logika::filmKilistaz() {
 
         while (valasztas != 0)
         {
-            katalogusTarolo.listazas();
+            katalogusTarolo.listazas(std::cout);
             std::cout << "1. Kedvencekhez hozzaadas, 2. Cim szerinti rendezes, 3. Ido szerinti rendezes, 4. Keletkezes szerinti rendezes, 5. Novekvo/Csokkeno sorrend, 0. Visszalepes" << std::endl;
             std::cout << "Valasztas: ";
             std::cin >> valasztas;
             if (std::cin.fail())
             {
                 std::cin.clear();
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
                 std::cout << "Folytatshoz nyomj entert.....";
                 std::cin.get();
@@ -166,7 +166,7 @@ void Logika::filmKilistaz() {
             }
             else if (valasztas < 0 || valasztas > 5)
             {
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
                 std::cout << "Folytatshoz nyomj entert....." ;
                 std::cin.get();
@@ -230,7 +230,7 @@ void Logika::filmKereses() {
     std::string cim;
     std::cout << "Adja meg a keresett film cimet: ";
     std::getline(std::cin >> std::ws, cim);
-    katalogusTarolo.kereses(cim);
+    katalogusTarolo.kereses(cim,std::cout);
 } 
 
 void Logika::kedvencek() {
@@ -245,14 +245,14 @@ void Logika::kedvencek() {
     
         while (valasztas != 0)
         {
-            kedvencekTarolo.listazas();
+            kedvencekTarolo.listazas(std::cout);
             std::cout << "1. Kedvencek exportalasa, 2. Kedvencek kozul torles, 0. Visszalepes" << std::endl;
             std::cout << "Valasztas: ";
             std::cin >> valasztas;
         if (std::cin.fail())
             {
                 std::cin.clear();
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
                 std::cout << "Folytatshoz nyomj entert....." ;
                 std::cin.get();
@@ -261,7 +261,7 @@ void Logika::kedvencek() {
             }
             else if (valasztas < 0 || valasztas > 2)
             {
-                std::cin.ignore(10000, '\n');
+                std::cin.ignore(MAX_PUFFER_MERET, '\n');
                 std::cout << "A megadott szam nincs a menupontok kozott! Probald meg ujra!" << std::endl;
                 std::cout << "Folytatshoz nyomj entert....." ;
                 std::cin.get();
@@ -290,19 +290,30 @@ void Logika::kedvencek() {
     
 }
 void Logika::kedvencekhezAd(int index) {
-    if (katalogusTarolo.getterFilm(index) == nullptr)
+    if (katalogusTarolo.getterFilm(index-1) == nullptr)
     {
         std::cout << "Nem talalhato ez a film." << std::endl;
         return;
     }
-    kedvencekTarolo.hozzaad(katalogusTarolo.getterFilm(index));
+    kedvencekTarolo.hozzaad(katalogusTarolo.getterFilm(index-1));
     
 }
 void Logika::kedvencekExport() {
     std::string fajlnev;
     std::cout << "Adja meg a fajl nevet: ";
     std::cin >> fajlnev;
-    kedvencekTarolo.exportalas(fajlnev);
+
+    try
+    {
+        kedvencekTarolo.exportalas(fajlnev);
+    }
+    catch(const Fajlhiba& e)
+    {
+        std::cerr << "Exportalasi hiba: " << e.what() << '\n';
+    }
+    
+
+    
     std::cout << std::endl;
     std::cout << "Exportalas sikeres!" << std::endl;
 }
@@ -310,22 +321,33 @@ void Logika::kedvencekTorol() {
     int index;
     std::cout << "Adja meg a torolni kivant kedvenc sorszamat: ";
     std::cin >> index;
-    kedvencekTarolo.torles(index);
-    std::cout << std::endl;
-    std::cout << "Torles sikeres!" << std::endl;
+
+    try
+    {
+        kedvencekTarolo.torles(index);
+        std::cout << std::endl;
+        std::cout << "Torles sikeres!" << std::endl;
+    }
+    catch(const std::out_of_range& e)
+    {
+        std::cerr << "Hiba a torleskor: " << e.what() << '\n';
+    }
+    
+
+   
 }
 void Logika::filmTorol() {
     bool helyes_index = false;
     while (!helyes_index)
     {
         int index;
-        katalogusTarolo.listazas();
+        katalogusTarolo.listazas(std::cout);
         std::cout << "Adja meg a torolni kivant film sorszamat: ";
         std::cin >> index;
         if (std::cin.fail() || index < 1 || index > katalogusTarolo.get_db())
         {
             std::cin.clear();
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
             std::cout << "Folytatshoz nyomj entert.....";
             std::cin.get();
@@ -334,13 +356,24 @@ void Logika::filmTorol() {
         }
         
         else {
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             helyes_index = true;
             
         }
-        kedvencekTarolo.mutato_eltavolitas(katalogusTarolo.getterFilm(index));
-        katalogusTarolo.torles(index);
-        std::cout << "torles sikeres" << std::endl; // teszteleshez
+
+        try
+        {
+            kedvencekTarolo.mutato_eltavolitas(katalogusTarolo.getterFilm(index-1));
+            katalogusTarolo.torles(index-1);
+            std::cout << "Torles sikeres!" << std::endl;
+        }
+        catch(const std::out_of_range& e)
+        {
+            std::cerr << "Hiba a torlekor: " << e.what() << '\n';
+        }
+        
+
+        
     }
     
 
@@ -348,8 +381,19 @@ void Logika::filmTorol() {
 
 
 void Logika::kilepes() {
-    katalogusTarolo.mentes(); //mukodik
-    kedvencekTarolo.mentes(); //mukodik
+
+    try
+    {
+        katalogusTarolo.mentes("filmtar.txt");
+        kedvencekTarolo.mentes("kedvencektar.txt"); 
+    }
+    catch(const Fajlhiba& e)
+    {
+        std::cerr << "Mentesi hiba: " << e.what() << '\n';
+    }
+    
+
+    
 }
 //Tesztrogram lefutasa
 //A tesztprogram megmutatja a ctor/dtor hivasokat tovabba a katalogushoz adast. A kedvencek tarolo mukodeset is bemutatja
@@ -372,8 +416,17 @@ void Logika::inditas() {
     kedvencekTarolo.mentes();
     kedvencekTarolo.exportalas("kedvenceim");
     */
-    katalogusTarolo.betoltes();
-    kedvencekBetolt();
+   try
+   {
+    katalogusTarolo.betoltes("filmtar.txt");
+    kedvencekBetolt("kedvencektar.txt");
+   }
+   catch(const Fajlhiba& e)
+   {
+    std::cerr<< "Inditasi hiba: " << e.what() << '\n';
+   }
+   
+    
     int valasztas = -1;
     while (valasztas != 0)
     {
@@ -389,7 +442,7 @@ void Logika::inditas() {
         if (std::cin.fail())
         {
             std::cin.clear();
-            std::cin.ignore(10000, '\n');
+            std::cin.ignore(MAX_PUFFER_MERET, '\n');
             std::cout << "Rossz erteket adtal meg probald meg ujra!" << std::endl;
             valasztas = -1;
             continue;
@@ -430,7 +483,7 @@ void Logika::inditas() {
         }
     }
     
-    //TODO: betuk irasa szam helyett!!
+    
     
     
 }

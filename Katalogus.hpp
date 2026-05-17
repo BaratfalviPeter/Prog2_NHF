@@ -1,7 +1,9 @@
 //WM53NO
 #pragma once
 #include "Film.hpp"
+#include "Kivetelek.hpp"
 #include <string>
+
 //Rendezes szempontja
 enum Rend_szempont{
     Cim = 2,
@@ -23,6 +25,8 @@ class Katalogus{
     * Csak a hozzaad() hivja ha megtel a tarolo
     */
     void atmeretez();
+    Katalogus(const Katalogus&);
+    Katalogus operator=(const Katalogus&);
 public:
     /**
      * @brief Beallitja az alapertekeket es foglal egy alap 5 kapacitasu katalogust.
@@ -35,7 +39,7 @@ public:
     //Rendezi a katalogust
     void rendezes(Rend_szempont szempont, Irany irany);
     //Megadott cim szerint keres a katalogusban
-    void kereses(const std::string& cim) const;
+    void kereses(const std::string& cim, std::ostream& os) const;
     //Cim es ev szerint kikeresi a katalogusbol az adott filmet
     Film* filmLekerdez (const std::string& cim, int ev) const;
     
@@ -43,7 +47,7 @@ public:
     * @brief Kilistazza a katalogus tartalmat es sorszamot rak az elemek ele
     * Nem valtoztatja a lista szerkezetet/elemeit
     */
-    void listazas() const;
+    void listazas(std::ostream& os) const;
     
     /**
      * @brief Hozzaadja a katalogushoz az uj filmet
@@ -55,8 +59,8 @@ public:
     //Torol a katalogusbol veglegesen
     void torles(int index);
     //Elore megadott fix fajlba menti a katalogus tartalmat
-    void mentes() const;
+    void mentes(const std::string& fajlnev) const;
     //A fajlbol betolti a katalogus tartalmat
-    void betoltes();
+    void betoltes(const std::string& fajlnev);
     ~Katalogus();
 };

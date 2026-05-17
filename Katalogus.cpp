@@ -6,7 +6,6 @@
 
 //Tesztprogram jelez ha a Katalogus letrejott
 Katalogus::Katalogus() {
-    std::cout << "A Katalogus letrejott" << std::endl;
     darab = 0; 
     kapacitas = 5;
     TaroltFilm = new Film*[kapacitas]; // Foglal egy alap meretu katalogust
@@ -14,7 +13,6 @@ Katalogus::Katalogus() {
 
 //Tesztprogram jelez ha a Katalogus meghalt
 Katalogus::~Katalogus() {
-    std::cout << "A Katalogus meghalt" << std::endl;
     for (size_t i = 0; i < darab; i++)
     {
         delete TaroltFilm[i]; // A tarolon vegiglepked es torli a tartalmat
@@ -36,11 +34,11 @@ void Katalogus::atmeretez() {
 }
 
 Film* Katalogus::getterFilm(int index) const {
-    if (index <= darab && index > 0)
+    if (index >= 0 && index < darab)
     {
-        return TaroltFilm[index-1];
+        return TaroltFilm[index];
     }
-    return nullptr;
+    throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
 }
 
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
@@ -128,12 +126,12 @@ void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
     
 } 
 
-void Katalogus::kereses(const std::string& cim) const {
+void Katalogus::kereses(const std::string& cim, std::ostream& os) const {
     for (size_t i = 0; i < darab; i++)
     {
         if (TaroltFilm[i]->getNev().find(cim) != std::string::npos)
         {
-            TaroltFilm[i]->kiir(std::cout);
+            TaroltFilm[i]->kiir(os);
         }
         
     }
@@ -151,11 +149,11 @@ Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
     }
     return nullptr;    
 }
-void Katalogus::listazas() const {
+void Katalogus::listazas(std::ostream& os) const {
     for (size_t i = 0; i < darab; i++) //Vegigmegy a katalogus tartalman
     {
-        std::cout<< i+1 << ". "; //Sorszamot tesz minden sor ele 
-        TaroltFilm[i]->kiir(std::cout); //Minden elemre meghivja a kiir() metodust
+        os << i+1 << ". "; //Sorszamot tesz minden sor ele 
+        TaroltFilm[i]->kiir(os); //Minden elemre meghivja a kiir() metodust
     }
     
 }
@@ -167,11 +165,10 @@ void Katalogus::hozzaad(Film* film) {
     TaroltFilm[darab++] = film; //A tarolohoz hozzaadjuk az uj filmet es noveljuk a darabszamot
 }
 void Katalogus::torles(int index) {
-    if (index < 0 || index > darab)
+    if (index < 0 || index >= darab)
     {
-        return;
+        throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
     }
-    index--;
     delete TaroltFilm[index]; //Torli az adott elemet
     darab--; //Csokkenti a darabszamot
     for (size_t i = index; i < darab; i++) //A torolt elem indexetol elindul a vegeig
@@ -182,22 +179,26 @@ void Katalogus::torles(int index) {
 
     
 }
-void Katalogus::mentes() const {
-    std::ofstream KatalogusMentes("filmtar.txt");
+void Katalogus::mentes(const std::string& fajlnev) const {
+    std::ofstream KatalogusMentes(fajlnev);
     if (!KatalogusMentes.is_open())
     {
-        return;
+        throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
     }
     for (size_t i = 0; i < darab; i++)
     {
         TaroltFilm[i]->mentes(KatalogusMentes);
     }
     KatalogusMentes.close();
-    std::cout<<"mentes sikerult"<<std::endl;
     
 }
-void Katalogus::betoltes() {
-    std::ifstream KatalogusBetoltes("filmtar.txt");
+void Katalogus::betoltes(const std::string& fajlnev) {
+    std::ifstream KatalogusBetoltes(fajlnev);
+    if (!KatalogusBetoltes.is_open())
+    {
+        throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
+    }
+    
     std::string sor;
     while (std::getline(KatalogusBetoltes,sor))
     {
@@ -227,6 +228,5 @@ void Katalogus::betoltes() {
         
 
     }
-    std::cout<<"betoltes sikerult"<<std::endl;
     
 }

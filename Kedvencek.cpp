@@ -5,7 +5,6 @@
 #include <sstream>
 //Tesztprogram jelez ha kedvencek letrejottek
 Kedvencek::Kedvencek() {
-    std::cout << "A Kedvencek letrejottek" << std::endl;
     darab = 0;
     kapacitas = 5;
     KedvencFilm = new Film*[kapacitas];
@@ -13,7 +12,6 @@ Kedvencek::Kedvencek() {
 }
 //Tesztprogram jelez ha kedvencek meghaltak
 Kedvencek::~Kedvencek() {
-    std::cout << "A Kedvencek meghaltak" << std::endl;
     delete[] KedvencFilm;
 }
 
@@ -28,17 +26,16 @@ void Kedvencek::atmeretez() {
     kapacitas = kapacitas*2;
     
 }
-void Kedvencek::listazas() const {
+void Kedvencek::listazas(std::ostream& os) const {
     for (size_t i = 0; i < darab; i++)
     {
-        std::cout<<i+1<<". ";
-        KedvencFilm[i]->kiir(std::cout);
+        os << i+1 << ". ";
+        KedvencFilm[i]->kiir(os);
     }
     
 }
 //Tesztprogram jelez ha kedvencekhez uj elem lett adva
 void Kedvencek::hozzaad(Film* film) {
-    std::cout << "Uj kedvenc lett hozzaadva" << std::endl;
     if (darab >= kapacitas)
     {
         atmeretez();
@@ -47,9 +44,9 @@ void Kedvencek::hozzaad(Film* film) {
     
 }
 void Kedvencek::torles(int index) {
-    if (index < 0 || index > darab)
+    if (index < 0 || index >= darab)
     {
-        return;
+        throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
     }
     darab--;
     for (size_t i = index; i < darab; i++)
@@ -60,42 +57,44 @@ void Kedvencek::torles(int index) {
 }
 
 void Kedvencek::mutato_eltavolitas(Film* keresett){
-    for (size_t i = 0; i < darab; i++)
+    for (size_t i = 0; i < darab;)
     {
         if (KedvencFilm[i] == keresett)
         {
             torles(i);
-            return;
+            
         }
+        else i++;
+        
         
     }
     
 }
 
-void Kedvencek::mentes() const {
-    std::ofstream KedvencekMentes("kedvencektar.txt");
+void Kedvencek::mentes(const std::string& fajlnev) const {
+    std::ofstream KedvencekMentes(fajlnev);
     if (!KedvencekMentes.is_open())
     {
-        return;
+         throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
     }
     for (size_t i = 0; i < darab; i++)
     {
         KedvencekMentes << KedvencFilm[i]->getNev() << ";" <<KedvencFilm[i]->getKeletkezes()<< std::endl;
     }
     KedvencekMentes.close();
-    std::cout<<"mentes sikerult"<<std::endl;
+    
 }
 void Kedvencek::exportalas(const std::string& fajlnev)const {
      std::ofstream KedvencekMentes(fajlnev);
     if (!KedvencekMentes.is_open())
     {
-        return;
+         throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
     }
     for (size_t i = 0; i < darab; i++)
     {
         KedvencFilm[i]->kiir(KedvencekMentes);
     }
     KedvencekMentes.close();
-    std::cout<<"export sikerult"<<std::endl;
+    
 }
 
