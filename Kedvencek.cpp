@@ -15,6 +15,7 @@ Kedvencek::Kedvencek() : darab(0), kapacitas(5) {   //Az alap kontruktor ertekek
 
 Kedvencek::~Kedvencek() {
     delete[] KedvencFilm;   //Csak a mutatokat toroljuk mert az objektum marad tovabb a katalogusban
+
 }
 
 void Kedvencek::atmeretez() {
@@ -69,6 +70,7 @@ void Kedvencek::mutato_eltavolitas(Film* keresett){
             
         }
         else i++; //Egyeb esetben a ciklus a kovetkezo elemre lep (a masik esetben nem kell novelni hiszen a torles() eltolta)
+        
     }
 
 }

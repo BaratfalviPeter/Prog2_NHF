@@ -51,6 +51,7 @@ void tesztek_futattasa(){
        EXPECT_THROW(kat.rendezes(Cim,Nov),std::runtime_error);
        EXPECT_THROW(kat.torles(99),std::out_of_range);
        EXPECT_THROW(kedv.torles(99),std::out_of_range);
+
     } END
 
     TEST(Torles,Negyedik_teszt){
@@ -63,6 +64,7 @@ void tesztek_futattasa(){
         kedv.mutato_eltavolitas(kat.getterFilm(0));
         kat.torles(0);
         EXPECT_EQ(0,kedv.get_db());
+
     } END
 
     TEST(Mentes,Otodik_teszt){
@@ -76,25 +78,20 @@ void tesztek_futattasa(){
         kat2.betoltes("test.txt");
         EXPECT_EQ(2,kat2.get_db());
         EXPECT_STREQ("Shrek", kat2.getterFilm(0)->getNev().c_str());
+        
     } END
-
-
-
-
 
 }
 
 int main() {
-    
 #ifdef CPORTA
 
     tesztek_futattasa();
     
 #else
 
-    //Logika Program;
-    //Program.inditas();
-    tesztek_futattasa();
+    Logika Program;
+    Program.inditas();
     
 #endif
 

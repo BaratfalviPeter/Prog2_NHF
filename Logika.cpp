@@ -19,13 +19,14 @@ int Logika::beolvasas_ellenorzes(int also_h, int felso_h){ //Ez felelos hogy az 
             std::cin.ignore(MAX_PUFFER_MERET, '\n'); //Uriti a pufferben maradt hibas karaktereket
             std::cout << "Rossz erteket adtal meg probald meg ujra! Elvart: " << also_h << " - " << felso_h << std::endl;
             std::cout << "Valasztas: ";
-            
         }
         else //Ez fut le jo ertek megadasa utan
         {
             std::cin.ignore(MAX_PUFFER_MERET, '\n'); //Uriti a pufferben maradt karaktereket hogy a kovetkezo hasznalatnal ne okozzon gondot 
             return ertek; // Megszakitja a while-t es visszater egy helyes ertekkel
+
         }
+
     }
     
 }
@@ -50,7 +51,6 @@ void Logika::kedvencekBetolt(const std::string& fajlnev) {
             if (be_kedvenc != nullptr)//Ha sikeres volt a kereses
             {
             kedvencekTarolo.hozzaad(be_kedvenc); //Akkor a kedvencek tarolohoz addjuk
-
             }
         }
         catch(const std::exception& e)
@@ -58,9 +58,8 @@ void Logika::kedvencekBetolt(const std::string& fajlnev) {
             std::cerr<< "Hibas adatsor a fajlban! Kihagyva." << '\n';
         }
         
-        
-        
     }
+
 }
 
 
@@ -70,14 +69,11 @@ void Logika::ujFilmHozzaad() {
     std::string nev, leiras;
     int ido, keletkezes, korhatar;
     
-    
     std::cout<< "1. Csaladifilm" << std::endl; //A felhasznalo kivalasztja a film tipusat
     std::cout<< "2. Dokumentumfim" << std::endl;
     std::cout<< "Valassza ki a film tipusat: " ;
     valasztas = beolvasas_ellenorzes(1,2);
         
-    
-    
     std::cout << std::endl << "Adja meg a film nevet: "; //A felhasznalo megadja a film nevet
     std::getline(std::cin >> std::ws, nev);
     
@@ -89,30 +85,32 @@ void Logika::ujFilmHozzaad() {
     
     if (valasztas == 1) //Ha csaladi film tipust kapott akkor ez fut le
     {
-        
-        
         std::cout << std::endl << "Adja meg a film korhatarat: ";   // Bekeri a specialis adatot itt a korhatart
         korhatar = beolvasas_ellenorzes(1,MAX_KORHATAR);
         
-
         CsaladiFilm* uj_csfilm = new CsaladiFilm(nev,ido,keletkezes,korhatar); //Uj helyet foglal az objektumnak
         katalogusTarolo.hozzaad(uj_csfilm); //Majd hozzaadja a katalogushoz
     }
+
     if (valasztas == 2) //Ha dokumentum film tipust kapott akkor ez fut le
     {
         std::cout << std::endl << "Adja meg a film leirasat: "; // Bekeri a specialis adatot itt a leirast
         std::getline(std::cin >> std::ws, leiras);
+
         DokumentumFilm* uj_dfilm = new DokumentumFilm(nev,ido,keletkezes,leiras);   //Uj helyet foglal az objektumnak
         katalogusTarolo.hozzaad(uj_dfilm);  //Majd hozzaadja a katalogushoz
     }    
+
 }
 
 void Logika::filmKilistaz() {
     int valasztas = -1;
+
     if (katalogusTarolo.get_db() == 0) //Ellenorzi hogy a katalogus nem ures e 
     {
         std::cout << "A katalogus meg ures!" << std::endl;
     }
+
     else
     {
         Rend_szempont aktualis_sz = Cim;
@@ -155,13 +153,13 @@ void Logika::filmKilistaz() {
                 kell_rend = true;
                 break;
 
-
             case 5:
                 if (aktualis_i == Nov)
                 {
                     aktualis_i = Csokk;
                     kell_rend = true;
                 }
+
                 else
                 {
                     aktualis_i = Nov;
@@ -173,7 +171,6 @@ void Logika::filmKilistaz() {
                 //visszalepes itt tortenik
                 break;
 
-        
             default:
                 std::cout << "Hibas valsztas!!" << std::endl;
                 break;
@@ -189,9 +186,9 @@ void Logika::filmKilistaz() {
                     std::cerr << "Hibas rendezes:" << e.what() << '\n';
                 }
             }
-            
 
         }
+
     }
     
 }
@@ -209,9 +206,9 @@ void Logika::kedvencek() {
     {
         std::cout << "Meg ures a kedvencek tarolo" << std::endl;
     }
+
     else
     {
-    
         while (valasztas != 0)//Addig fut a ciklus ameddig a visszalep gomb nincs megnyova vagyis a 0.
         {
             kedvencekTarolo.listazas(std::cout);
@@ -235,7 +232,9 @@ void Logika::kedvencek() {
             default:
                 break;
             }
+
         }
+
     }
     
 }
@@ -269,6 +268,7 @@ void Logika::kedvencekTorol() {
     
     std::cout << "Adja meg a torolni kivant kedvenc sorszamat: ";
     int index = beolvasas_ellenorzes(1,kedvencekTarolo.get_db());
+
     try
     {
         kedvencekTarolo.torles(index-1);
@@ -280,8 +280,6 @@ void Logika::kedvencekTorol() {
         std::cerr << "Hiba a torleskor: " << e.what() << '\n';
     }
     
-
-   
 }
 void Logika::filmTorol() {
     if (katalogusTarolo.get_db() == 0) //Ellenorzi hogy van-e elem amit lehet torolni.
@@ -293,6 +291,7 @@ void Logika::filmTorol() {
     katalogusTarolo.listazas(std::cout);
     std::cout << "Adja meg a torolni kivant film sorszamat: ";
     int index = beolvasas_ellenorzes(1,katalogusTarolo.get_db());
+
     try
     {
         kedvencekTarolo.mutato_eltavolitas(katalogusTarolo.getterFilm(index-1)); //Elsonek torli a kedvencek tarolobol a film mutatojat, ha tobb van benne az osszeset.
@@ -303,10 +302,10 @@ void Logika::filmTorol() {
     {
         std::cerr << "Hiba a torlekor: " << e.what() << '\n';
     }
+
 }
 
 void Logika::kilepes() {
-
     try
     {
         katalogusTarolo.mentes("filmtar.txt");
@@ -317,29 +316,9 @@ void Logika::kilepes() {
         std::cerr << "Mentesi hiba: " << e.what() << '\n';
     }
     
-
-    
 }
 
 void Logika::inditas() {
-    /*
-    //Tesztelesre hasznaltam
-    std::cout << "A program elindult" << std::endl;
-    CsaladiFilm* uj_csfilm = new CsaladiFilm("Alma",120,1990,12);
-    DokumentumFilm* uj_dfilm = new DokumentumFilm("Farkasok",90,2030,"Falka");
-    uj_csfilm->kiir(std::cout);
-    uj_dfilm->kiir(std::cout);
-    katalogusTarolo.hozzaad(uj_csfilm);
-    katalogusTarolo.hozzaad(uj_dfilm);
-    katalogusTarolo.listazas();
-    kedvencekTarolo.hozzaad(uj_csfilm);
-    kedvencekTarolo.listazas();
-    katalogusTarolo.mentes();
-    katalogusTarolo.betoltes();
-    katalogusTarolo.listazas();
-    kedvencekTarolo.mentes();
-    kedvencekTarolo.exportalas("kedvenceim");
-    */
    try
    {
     katalogusTarolo.betoltes("filmtar.txt");
@@ -350,7 +329,6 @@ void Logika::inditas() {
     std::cerr<< "Inditasi hiba: " << e.what() << '\n';
    }
    
-    
     int valasztas = -1;
     while (valasztas != 0)
     {
@@ -390,5 +368,7 @@ void Logika::inditas() {
             std::cout << "Hibas valsztas!!" << std::endl;
             break;
         }
+
     }
+    
 }

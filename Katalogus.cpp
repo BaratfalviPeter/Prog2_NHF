@@ -9,6 +9,7 @@
 
 Katalogus::Katalogus(): darab(0), kapacitas(5) {
     TaroltFilm = new Film*[kapacitas]; // Foglal egy alap meretu katalogust
+
 }
 
 Katalogus::~Katalogus() {
@@ -38,45 +39,43 @@ Film* Katalogus::getterFilm(int index) const {
         return TaroltFilm[index]; //Ha helyes visszadjuk a film mutatojat
     }
     throw std::out_of_range("Rossz index lett megadva! Kier a listabol!"); 
+
 }
 
 bool Katalogus::rendezes_cim_jo_e(Irany ir, int hely) const { // A cim helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
     if (ir == Nov)
     {
         return TaroltFilm[hely]->getNev() > TaroltFilm[hely+1]->getNev(); // Ha novekvo sorrend kell
-        
     }
     else 
     {
        return TaroltFilm[hely]->getNev() < TaroltFilm[hely+1]->getNev(); //Ha csokkeno sorrend kell
-        
     }
+
 }
 
 bool Katalogus::rendezes_ido_jo_e(Irany ir, int hely) const { // Az ido helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
     if (ir == Nov)
     {
         return TaroltFilm[hely]->getIdo() > TaroltFilm[hely+1]->getIdo(); //Ha novekvo sorrend kell
-        
     }
     else 
     {
        return TaroltFilm[hely]->getIdo() < TaroltFilm[hely+1]->getIdo(); // Ha csokkeno sorrend kell
-        
     }
+
 }
 
 bool Katalogus::rendezes_kel_jo_e(Irany ir, int hely) const{ //A keletkezes helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
     if (ir == Nov)
     {
         return TaroltFilm[hely]->getKeletkezes() > TaroltFilm[hely+1]->getKeletkezes(); //Ha novekvo sorrend kell
-        
     }
     else 
     {
        return TaroltFilm[hely]->getKeletkezes() < TaroltFilm[hely+1]->getKeletkezes(); //Ha csokkeno sorrend kell
-        
     }
+
 }
 
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
@@ -94,7 +93,6 @@ void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
             if (szempont == Cim)
             {
                 rossz_e = rendezes_cim_jo_e(irany,j);
-                
             }
 
             else if (szempont == Ido)
@@ -127,9 +125,9 @@ void Katalogus::kereses(const std::string& cim, std::ostream& os) const {
         {
             TaroltFilm[i]->kiir(os);
         }
-        
+
     }
-    
+
 } 
 
 Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const { 
@@ -157,6 +155,7 @@ void Katalogus::hozzaad(Film* film) {
         atmeretez(); //Ha keves a kapacitas akkor atmeretez
      }
     TaroltFilm[darab++] = film; //A tarolohoz hozzaadjuk az uj filmet es noveljuk a darabszamot
+
 }
 void Katalogus::torles(int index) {
     if (index < 0 || index >= darab)
@@ -169,8 +168,6 @@ void Katalogus::torles(int index) {
     {
         TaroltFilm[i] = TaroltFilm[i+1]; //Minden elemet egyel elorebb helyez
     }
-    
-
     
 }
 void Katalogus::mentes(const std::string& fajlnev) const {
@@ -222,7 +219,7 @@ void Katalogus::betoltes(const std::string& fajlnev) {
                 DokumentumFilm* uj_dfilm = new DokumentumFilm(nev,std::stoi(ido),std::stoi(keletkezes),leiras);
                 hozzaad(uj_dfilm);
             }
-            
+
         }
 
         catch(const std::exception& e)
