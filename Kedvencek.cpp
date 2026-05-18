@@ -3,98 +3,101 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-//Tesztprogram jelez ha kedvencek letrejottek
-Kedvencek::Kedvencek() {
-    darab = 0;
-    kapacitas = 5;
-    KedvencFilm = new Film*[kapacitas];
+
+#ifdef MEMTRACE
+#include "memtrace.h"
+#endif
+
+Kedvencek::Kedvencek() : darab(0), kapacitas(5) {   //Az alap kontruktor ertekek beallitasa
+    KedvencFilm = new Film*[kapacitas]; //Lefoglalja az alap helyet 
 
 }
-//Tesztprogram jelez ha kedvencek meghaltak
+
 Kedvencek::~Kedvencek() {
-    delete[] KedvencFilm;
+    delete[] KedvencFilm;   //Csak a mutatokat toroljuk mert az objektum marad tovabb a katalogusban
 }
 
 void Kedvencek::atmeretez() {
-    Film** uj_kedvencek = new Film*[kapacitas*2];
-    for (size_t i = 0; i < darab; i++)
+    Film** uj_kedvencek = new Film*[kapacitas*2]; //Megnoveli a kapacitast a duplajara
+    for (int i = 0; i < darab; i++)
     {
-        uj_kedvencek[i] = KedvencFilm[i];
+        uj_kedvencek[i] = KedvencFilm[i]; //A regi tarolobol atteszi az ujra
     }
-    delete[] KedvencFilm;
-    KedvencFilm = uj_kedvencek;
-    kapacitas = kapacitas*2;
-    
+    delete[] KedvencFilm; //torli a regi tarolot
+    KedvencFilm = uj_kedvencek; //A regi tarolo mutatojat az ujra allitja
+    kapacitas = kapacitas*2;    // A kapacitast is noveljuk
+     
 }
+
 void Kedvencek::listazas(std::ostream& os) const {
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++) // Vegigmegy az egesz kedvenceken 
     {
         os << i+1 << ". ";
-        KedvencFilm[i]->kiir(os);
+        KedvencFilm[i]->kiir(os); //Minden elemre meghivja a kiir() metodust ami a megadott cel kimetre ir
     }
     
 }
-//Tesztprogram jelez ha kedvencekhez uj elem lett adva
+
 void Kedvencek::hozzaad(Film* film) {
-    if (darab >= kapacitas)
+    if (darab >= kapacitas) //Ha nem eleg a kapacitas az atmeretez() metodust hivja
     {
         atmeretez();
     }
-    KedvencFilm[darab++] = film;
-    
+    KedvencFilm[darab++] = film; // A kapott film mutatot hozzadja a tarolohoz es noveli a darabszamat
+
 }
+
 void Kedvencek::torles(int index) {
-    if (index < 0 || index >= darab)
+    if (index < 0 || index >= darab) // Ha az index nincs benne a jo tartomanyba akkor hibat dob
     {
         throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
     }
-    darab--;
-    for (size_t i = index; i < darab; i++)
+    darab--; //Csokkenti a darabszamot hogy a for ne fusson tul
+    for (int i = index; i < darab; i++) //Az adott torolt indextol indul
     {
-        KedvencFilm[i] = KedvencFilm[i+1];
-    }
-    
+        KedvencFilm[i] = KedvencFilm[i+1]; //Az adott indexen levo elemet a legvegere tolja ami mar a darabszamon kivul esik
+    } 
+
 }
 
 void Kedvencek::mutato_eltavolitas(Film* keresett){
-    for (size_t i = 0; i < darab;)
+    for (int i = 0; i < darab;) //Az elejerol indul a ciklus ami bejarja a kedvencek tarolojat
     {
-        if (KedvencFilm[i] == keresett)
+        if (KedvencFilm[i] == keresett) //Ha megegyezik az adott elem akkor meghivodik a torles()
         {
-            torles(i);
+            torles(i); //Csokkenti a darabszamot es a legvegere tolja az adott elemet
             
         }
-        else i++;
-        
-        
+        else i++; //Egyeb esetben a ciklus a kovetkezo elemre lep (a masik esetben nem kell novelni hiszen a torles() eltolta)
     }
+
+}
+
+void Kedvencek::mentes(const std::string& fajlnev) const { 
+    std::ofstream KedvencekMentes(fajlnev); //Az adott fajl megnyitasa
+    if (!KedvencekMentes.is_open())
+    {
+         throw Fajlhiba("A fajl nem nyithato meg!! Fajl neve:" + fajlnev); //A megnyitas ellenorzese
+    }
+    for (int i = 0; i < darab; i++)
+    {
+        KedvencekMentes << KedvencFilm[i]->getNev() << ";" <<KedvencFilm[i]->getKeletkezes()<< std::endl; //Vegigmegyunk a kedvenceken es a szukseges nev;keletkezes adatokat menjunk ebben a formatumban
+    }
+    KedvencekMentes.close(); //Bezarjuk a fajlt
     
 }
 
-void Kedvencek::mentes(const std::string& fajlnev) const {
-    std::ofstream KedvencekMentes(fajlnev);
-    if (!KedvencekMentes.is_open())
-    {
-         throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
-    }
-    for (size_t i = 0; i < darab; i++)
-    {
-        KedvencekMentes << KedvencFilm[i]->getNev() << ";" <<KedvencFilm[i]->getKeletkezes()<< std::endl;
-    }
-    KedvencekMentes.close();
-    
-}
 void Kedvencek::exportalas(const std::string& fajlnev)const {
-     std::ofstream KedvencekMentes(fajlnev);
+     std::ofstream KedvencekMentes(fajlnev); //Megnyitunk egy fajlt a felhasznalo altal megadott nev szerint
     if (!KedvencekMentes.is_open())
     {
-         throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
+         throw Fajlhiba("A fajl nem nyithato meg!! Fajl neve:" + fajlnev); //Ellenorizzuk hogy a fajl letrejott-e
     }
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++)
     {
-        KedvencFilm[i]->kiir(KedvencekMentes);
+        KedvencFilm[i]->kiir(KedvencekMentes); //Vegigmegyunk a kedvenceket es az osszesre meghuvjuk a kiir() metodust 
     }
-    KedvencekMentes.close();
+    KedvencekMentes.close(); //Bezarjuk a fajlt
     
 }
 

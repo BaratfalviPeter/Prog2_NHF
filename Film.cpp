@@ -1,6 +1,9 @@
 //WM53NO
 #include "Film.hpp"
 #include <iostream>
+#ifdef MEMTRACE
+#include "memtrace.h"
+#endif
 
 Film::Film() : nev(""), ido(0), keletkezes(0) {}
 Film::Film(const std::string& n, int i, int k) : nev(n), ido(i), keletkezes(k) {}

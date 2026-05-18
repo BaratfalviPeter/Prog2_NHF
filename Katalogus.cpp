@@ -3,17 +3,16 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#ifdef MEMTRACE
+#include "memtrace.h"
+#endif
 
-//Tesztprogram jelez ha a Katalogus letrejott
-Katalogus::Katalogus() {
-    darab = 0; 
-    kapacitas = 5;
+Katalogus::Katalogus(): darab(0), kapacitas(5) {
     TaroltFilm = new Film*[kapacitas]; // Foglal egy alap meretu katalogust
 }
 
-//Tesztprogram jelez ha a Katalogus meghalt
 Katalogus::~Katalogus() {
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++)
     {
         delete TaroltFilm[i]; // A tarolon vegiglepked es torli a tartalmat
     }
@@ -23,7 +22,7 @@ Katalogus::~Katalogus() {
 
 void Katalogus::atmeretez() {
     Film** uj_filmtar = new Film*[kapacitas*2]; //Uj tarolo foglalasa ketszeres kapacitassal
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++)
     {
         uj_filmtar[i] = TaroltFilm[i]; // A regi adatokat betesszuk az ujba
     }
@@ -34,51 +33,48 @@ void Katalogus::atmeretez() {
 }
 
 Film* Katalogus::getterFilm(int index) const {
-    if (index >= 0 && index < darab)
+    if (index >= 0 && index < darab) //Megnezzuk hogy az index helyes elemre esik-e
     {
-        return TaroltFilm[index];
+        return TaroltFilm[index]; //Ha helyes visszadjuk a film mutatojat
     }
-    throw std::out_of_range("Rossz index lett megadva! Kier a listabol!");
+    throw std::out_of_range("Rossz index lett megadva! Kier a listabol!"); 
 }
 
-bool Katalogus::rendezes_cim_jo_e(Irany ir, int hely){
+bool Katalogus::rendezes_cim_jo_e(Irany ir, int hely) const { // A cim helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
     if (ir == Nov)
     {
-        return TaroltFilm[hely]->getNev() > TaroltFilm[hely+1]->getNev();
+        return TaroltFilm[hely]->getNev() > TaroltFilm[hely+1]->getNev(); // Ha novekvo sorrend kell
         
     }
-
-    else if (ir == Csokk)
+    else 
     {
-       return TaroltFilm[hely]->getNev() < TaroltFilm[hely+1]->getNev();
-        
-    }
-}
-
-bool Katalogus::rendezes_ido_jo_e(Irany ir, int hely){
-    if (ir == Nov)
-    {
-        return TaroltFilm[hely]->get_ido() > TaroltFilm[hely+1]->get_ido();
-        
-    }
-
-    else if (ir == Csokk)
-    {
-       return TaroltFilm[hely]->get_ido() < TaroltFilm[hely+1]->get_ido();
+       return TaroltFilm[hely]->getNev() < TaroltFilm[hely+1]->getNev(); //Ha csokkeno sorrend kell
         
     }
 }
 
-bool Katalogus::rendezes_kel_jo_e(Irany ir, int hely){
+bool Katalogus::rendezes_ido_jo_e(Irany ir, int hely) const { // Az ido helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
     if (ir == Nov)
     {
-        return TaroltFilm[hely]->getKeletkezes() > TaroltFilm[hely+1]->getKeletkezes();
+        return TaroltFilm[hely]->getIdo() > TaroltFilm[hely+1]->getIdo(); //Ha novekvo sorrend kell
         
     }
-
-    else if (ir == Csokk)
+    else 
     {
-       return TaroltFilm[hely]->getKeletkezes() < TaroltFilm[hely+1]->getKeletkezes();
+       return TaroltFilm[hely]->getIdo() < TaroltFilm[hely+1]->getIdo(); // Ha csokkeno sorrend kell
+        
+    }
+}
+
+bool Katalogus::rendezes_kel_jo_e(Irany ir, int hely) const{ //A keletkezes helyes sorrendjet ellenorzi, ha nem jo igazat ad vissza
+    if (ir == Nov)
+    {
+        return TaroltFilm[hely]->getKeletkezes() > TaroltFilm[hely+1]->getKeletkezes(); //Ha novekvo sorrend kell
+        
+    }
+    else 
+    {
+       return TaroltFilm[hely]->getKeletkezes() < TaroltFilm[hely+1]->getKeletkezes(); //Ha csokkeno sorrend kell
         
     }
 }
@@ -86,14 +82,14 @@ bool Katalogus::rendezes_kel_jo_e(Irany ir, int hely){
 void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
     if (darab < 2)
     {
-        throw std::runtime_error("Nincs eleg elem a listaban!");
+        throw std::runtime_error("Nincs eleg elem a listaban!");    //Van e eleg elem a katalogusba hogy rendezni lehessen
     }
     
-    for (size_t i = 0; i < darab-1; i++)
+    for (int i = 0; i < darab-1; i++) //Buborekrendezes algoritmusa
     {
-        for (size_t j = 0; j < darab-i-1; j++)
+        for (int j = 0; j < darab-i-1; j++)
         {
-            bool rossz_e = false;
+            bool rossz_e = false;           //A szempont alapjan eldontjuk hogy melyik ellenorzo segedfugvenyt kell hasznalni
             
             if (szempont == Cim)
             {
@@ -111,7 +107,7 @@ void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
                 rossz_e = rendezes_kel_jo_e(irany,j);
             }
 
-            if (rossz_e == true)
+            if (rossz_e == true)        //Ha az elemek rossz sorrendben vannak akkor felcsereljuk a mutatoikat
             {
                 Film* temp = TaroltFilm[j];
                 TaroltFilm[j] = TaroltFilm[j+1];
@@ -125,9 +121,9 @@ void Katalogus::rendezes(Rend_szempont szempont, Irany irany) {
 } 
 
 void Katalogus::kereses(const std::string& cim, std::ostream& os) const {
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++)
     {
-        if (TaroltFilm[i]->getNev().find(cim) != std::string::npos)
+        if (TaroltFilm[i]->getNev().find(cim) != std::string::npos)     //std::string.find() npos-t ad vissza ha nincs benne a szoreszlet.
         {
             TaroltFilm[i]->kiir(os);
         }
@@ -136,19 +132,19 @@ void Katalogus::kereses(const std::string& cim, std::ostream& os) const {
     
 } 
 
-Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const {
-    for (size_t i = 0; i < darab; i++)
+Film* Katalogus::filmLekerdez (const std::string& cim, int ev) const { 
+    for (int i = 0; i < darab; i++) // Vegigmegyunk a tarolt filmek listajan
     {
-        if (TaroltFilm[i]->getNev()==cim && TaroltFilm[i]->getKeletkezes() == ev)
+        if (TaroltFilm[i]->getNev()==cim && TaroltFilm[i]->getKeletkezes() == ev) // Ha megegyezik a pontos cim es a pontos ev akkor talaltunk van
         {
-            return TaroltFilm[i];
+            return TaroltFilm[i]; // visszadjuk a keresett film mutatojat
         }
         
     }
     return nullptr;    
 }
 void Katalogus::listazas(std::ostream& os) const {
-    for (size_t i = 0; i < darab; i++) //Vegigmegy a katalogus tartalman
+    for (int i = 0; i < darab; i++) //Vegigmegy a katalogus tartalman
     {
         os << i+1 << ". "; //Sorszamot tesz minden sor ele 
         TaroltFilm[i]->kiir(os); //Minden elemre meghivja a kiir() metodust
@@ -169,7 +165,7 @@ void Katalogus::torles(int index) {
     }
     delete TaroltFilm[index]; //Torli az adott elemet
     darab--; //Csokkenti a darabszamot
-    for (size_t i = index; i < darab; i++) //A torolt elem indexetol elindul a vegeig
+    for (int i = index; i < darab; i++) //A torolt elem indexetol elindul a vegeig
     {
         TaroltFilm[i] = TaroltFilm[i+1]; //Minden elemet egyel elorebb helyez
     }
@@ -178,53 +174,62 @@ void Katalogus::torles(int index) {
     
 }
 void Katalogus::mentes(const std::string& fajlnev) const {
-    std::ofstream KatalogusMentes(fajlnev);
-    if (!KatalogusMentes.is_open())
+    std::ofstream KatalogusMentes(fajlnev); //Letrehozzuk a celfajlt
+    if (!KatalogusMentes.is_open()) //Ellonirizzuk hogy sikeresen letre lett hozva es meg lehet-e nyitni
     {
         throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
     }
-    for (size_t i = 0; i < darab; i++)
+    for (int i = 0; i < darab; i++)
     {
-        TaroltFilm[i]->mentes(KatalogusMentes);
+        TaroltFilm[i]->mentes(KatalogusMentes); //Vegigmegyunk a katalogus osszes elemen es meghivjuk a mentes metodust
     }
-    KatalogusMentes.close();
+    KatalogusMentes.close(); //vegul bezarjuk a celfajlt
     
 }
 void Katalogus::betoltes(const std::string& fajlnev) {
-    std::ifstream KatalogusBetoltes(fajlnev);
+    std::ifstream KatalogusBetoltes(fajlnev); //letrehosszuk a bemeneti celfajlt
     if (!KatalogusBetoltes.is_open())
     {
-        throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev);
+        throw Fajlhiba("A fajl nem olvashato!! Fajl neve:" + fajlnev); //Ellenorizzuk hogy sikeres volt-e a letrehozas
     }
     
     std::string sor;
-    while (std::getline(KatalogusBetoltes,sor))
+    while (std::getline(KatalogusBetoltes,sor)) //Addig tart a ciklus ameddig tudunk behivni sort a sor valtozoba
     {
         std::string tipus;
-        std::stringstream ss(sor);
-        std::getline(ss,tipus,';');
-        if (tipus == "CS")
+        std::stringstream ss(sor);  //A beolvasott sort beleteszuk egy stringstreambe hogy konnyen ki tudjok beole az adatokat olvasni
+        std::getline(ss,tipus,';'); //Az elso adatot kiolvassuk a ; ig 
+        try
         {
-            std::string nev,ido,keletkezes,korhatar;
-            std::getline(ss,nev,';');
-            std::getline(ss,ido,';');
-            std::getline(ss,keletkezes,';');
-            std::getline(ss,korhatar);
-            CsaladiFilm* uj_csfilm = new CsaladiFilm(nev,std::stoi(ido),std::stoi(keletkezes),std::stoi(korhatar));
-            hozzaad(uj_csfilm);
+            if (tipus == "CS")  //Az elso alapjan eldontjuk hogy milyen tipus, itt Csaladifilm tipusu
+            {
+                std::string nev,ido,keletkezes,korhatar; //Letrehozunk tarolokat amibe majd az adatokat tarolhatjuk
+                std::getline(ss,nev,';'); //Tovabb daraboljuk a pontosveszoig es betesszuk az adott taroloba
+                std::getline(ss,ido,';');
+                std::getline(ss,keletkezes,';');
+                std::getline(ss,korhatar);
+                CsaladiFilm* uj_csfilm = new CsaladiFilm(nev,std::stoi(ido),std::stoi(keletkezes),std::stoi(korhatar)); // Vegul foglalunk memoriat az objektumnak es feltoltjuk az adatokkal
+                hozzaad(uj_csfilm); // A hozzaad() metodus a katalogushoz adja az uj objektumot
+            }
+
+            else if(tipus == "D")   //Az elso alapjan eldontjuk hogy milyen tipus itt Dokumentumfilm. Minden ugyanugy tortenik tovabb mint a masik esetben
+            {
+                std::string nev,ido,keletkezes,leiras;
+                std::getline(ss,nev,';');
+                std::getline(ss,ido,';');
+                std::getline(ss,keletkezes,';');
+                std::getline(ss,leiras);
+                DokumentumFilm* uj_dfilm = new DokumentumFilm(nev,std::stoi(ido),std::stoi(keletkezes),leiras);
+                hozzaad(uj_dfilm);
+            }
+            
         }
-        else if(tipus == "D")
+
+        catch(const std::exception& e)
         {
-            std::string nev,ido,keletkezes,leiras;
-            std::getline(ss,nev,';');
-            std::getline(ss,ido,';');
-            std::getline(ss,keletkezes,';');
-            std::getline(ss,leiras);
-            DokumentumFilm* uj_dfilm = new DokumentumFilm(nev,std::stoi(ido),std::stoi(keletkezes),leiras);
-            hozzaad(uj_dfilm);
+            std::cerr << "Hiba az adatsorba, kihagyva." << '\n';
         }
         
-
     }
     
 }
