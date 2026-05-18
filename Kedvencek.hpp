@@ -78,6 +78,7 @@ public:
      * @brief Exportalja a felhasznalo szamara a kedvenceit az osszes adataval (Abban a formatumba ahogy a kiiras is tortenik)
      * 
      * @param fajlnev A felhasznalo altal megadott fajl neve ahova az exportalas tortenik
+     * @throw Fajlhiba Ha az adott fajl nem nyithato meg vagy nem olvashato
      */
     void exportalas(const std::string& fajlnev)const;
 

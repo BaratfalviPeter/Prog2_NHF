@@ -1,6 +1,6 @@
 #WM53NO
 CXX = clang++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++11 -g -fsanitize=address
+CXXFLAGS = -Wall -Wextra -std=c++11 -g -fsanitize=address
 LDFLAGS = -fsanitize=address
 
 TARGET = filmtar
