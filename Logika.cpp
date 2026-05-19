@@ -13,6 +13,11 @@ int Logika::beolvasas_ellenorzes(int also_h, int felso_h){ //Ez felelos hogy az 
     while (true) //Teljesen a visszatereseig megy
     {
         std::cin >> ertek; //beolvassa a kijelzorol az adatot
+        if (std::cin.eof())
+        {
+            return 0;
+        }
+        
         if (std::cin.fail() || ertek < also_h || ertek > felso_h) //Ha az adat nem felel meg hogy int tipusu vagy nincs benne a korlatokba akkor belep az if-be
         {
             std::cin.clear(); //Torli a hiballapotot
